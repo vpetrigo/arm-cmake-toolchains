@@ -1,7 +1,8 @@
 # CMake toolchain files for ARM GCC compiler
 
 This repo contains CMake toolchain files that utilizes [ARM GCC](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm).
-One of them `arm-gcc-toolchain.cmake` use `arm-none-eabi-gcc` suite to build CMake project. To use it the toolchain must be added to the system PATH variable.
+
+One of them `arm-gcc-toolchain.cmake` uses `arm-none-eabi-gcc` suite to build CMake project. To use it the toolchain must be added to the system PATH variable.
 
 *Example for Ninja generator, Debug build*:
 
