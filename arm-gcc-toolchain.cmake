@@ -46,3 +46,10 @@ macro(_generate_object target suffix)
         "${CMAKE_CURRENT_BINARY_DIR}/${target}${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_BINARY_DIR}/${target}${suffix}"
     )
 endmacro()
+
+macro(_firmware_size target)
+    add_custom_command(TARGET ${target} POST_BUILD
+        COMMAND ${CMAKE_SIZE_UTIL} -B
+        "${CMAKE_CURRENT_BINARY_DIR}/${target}${CMAKE_EXECUTABLE_SUFFIX}"
+    )
+endmacro()
