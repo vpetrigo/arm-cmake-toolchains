@@ -49,9 +49,9 @@ set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 
-macro(_generate_object target suffix)
+macro(_generate_object target suffix type)
     add_custom_command(TARGET ${target} POST_BUILD
-        COMMAND ${CMAKE_OBJCOPY} -Obinary
+        COMMAND ${CMAKE_OBJCOPY} -O${type}
         "${CMAKE_CURRENT_BINARY_DIR}/${target}${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_BINARY_DIR}/${target}${suffix}"
     )
 endmacro()
