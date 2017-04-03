@@ -30,7 +30,6 @@ string(APPEND CMAKE_CXX_FLAGS " -B ${ARM_TOOLCHAIN_DIR}")
 # provide clang with ARM GCC toolchain include directory info
 include_directories(${ARM_TOOLCHAIN_DIR}/../arm-none-eabi/include)
 
-set(CMAKE_EXE_LINKER_FLAGS_INIT "--specs=nosys.specs")
 set(CMAKE_OBJCOPY ${ARM_TOOLCHAIN_DIR}/arm-none-eabi-objcopy CACHE INTERNAL "objcopy tool")
 set(CMAKE_SIZE_UTIL ${ARM_TOOLCHAIN_DIR}/arm-none-eabi-size CACHE INTERNAL "size tool")
 
