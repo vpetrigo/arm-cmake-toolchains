@@ -22,11 +22,11 @@ set(CMAKE_C_COMPILER clang)
 set(CMAKE_C_COMPILER_TARGET ${triple})
 set(CMAKE_CXX_COMPILER clang++)
 set(CMAKE_CXX_COMPILER_TARGET ${triple})
-#set(CMAKE_C_COMPILER_EXTERNAL_TOOLCHAIN ${ARM_TOOLCHAIN_DIR})
-#set(CMAKE_CXX_COMPILER_EXTERNAL_TOOLCHAIN ${ARM_TOOLCHAIN_DIR})
 
-string(APPEND CMAKE_C_FLAGS " -B ${ARM_TOOLCHAIN_DIR}")
-string(APPEND CMAKE_CXX_FLAGS " -B ${ARM_TOOLCHAIN_DIR}")
+set(CMAKE_C_FLAGS_INIT "-B${ARM_TOOLCHAIN_DIR}")
+set(CMAKE_CXX_FLAGS_INIT "-B${ARM_TOOLCHAIN_DIR}")
+# only for successful compilation of CMake test
+set(CMAKE_EXE_LINKER_FLAGS_INIT "--specs=nosys.specs")
 # provide clang with ARM GCC toolchain include directory info
 include_directories(${ARM_TOOLCHAIN_DIR}/../arm-none-eabi/include)
 
