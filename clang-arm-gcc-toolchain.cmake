@@ -26,7 +26,7 @@ set(CMAKE_CXX_COMPILER_TARGET ${triple})
 #set(CMAKE_CXX_COMPILER_EXTERNAL_TOOLCHAIN ${ARM_TOOLCHAIN_DIR})
 
 string(APPEND CMAKE_C_FLAGS " -B ${ARM_TOOLCHAIN_DIR}")
-string(APPEND CMAKE_CXX_FLAGS " -B ${ARM_TOOLCHAIN_DIR}"
+string(APPEND CMAKE_CXX_FLAGS " -B ${ARM_TOOLCHAIN_DIR}")
 # provide clang with ARM GCC toolchain include directory info
 include_directories(${ARM_TOOLCHAIN_DIR}/../arm-none-eabi/include)
 
