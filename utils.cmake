@@ -12,3 +12,9 @@ macro(subdirlist result current_dir)
 
     set(${result} ${dirlist})
 endmacro()
+
+# Prepend ${CMAKE_CURRENT_SOURCE_DIR} to a ${directory} name
+# and save it in PARENT_SCOPE ${variable}
+function(prepend_cur_dir variable directory)
+    set(${variable} ${CMAKE_CURRENT_SOURCE_DIR}/${directory} PARENT_SCOPE)
+endfunction()
