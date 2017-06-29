@@ -37,17 +37,3 @@ set(CMAKE_FIND_ROOT_PATH ${ARM_TOOLCHAIN_DIR})
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
-
-macro(_generate_object target suffix type)
-    add_custom_command(TARGET ${target} POST_BUILD
-        COMMAND ${CMAKE_OBJCOPY} -O${type}
-        "${CMAKE_CURRENT_BINARY_DIR}/${target}${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_BINARY_DIR}/${target}${suffix}"
-    )
-endmacro()
-
-macro(_firmware_size target)
-    add_custom_command(TARGET ${target} POST_BUILD
-        COMMAND ${CMAKE_SIZE_UTIL} -B
-        "${CMAKE_CURRENT_BINARY_DIR}/${target}${CMAKE_EXECUTABLE_SUFFIX}"
-    )
-endmacro()
