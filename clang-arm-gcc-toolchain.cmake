@@ -14,9 +14,7 @@ execute_process(
 )
 
 get_filename_component(ARM_TOOLCHAIN_DIR ${BINUTILS_PATH} DIRECTORY)
-
 set(triple arm-none-eabi)
-
 set(CMAKE_ASM_COMPILER arm-none-eabi-gcc)
 set(CMAKE_C_COMPILER clang)
 set(CMAKE_C_COMPILER_TARGET ${triple})
