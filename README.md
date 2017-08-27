@@ -14,6 +14,19 @@ PATH=<path/to/arm-none-eabi>:$PATH cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE=arm-gcc
 `clang-arm-gcc-toolchain.cmake` uses Clang front-end as a compiler that has some additional code analyzer 
 features with comprehensive warning/errormessages.
 
+## Customization of toolchain file
+
+Now the `arm-gcc-toolchain.cmake` and `clang-arm-gcc-toolchain.cmake` files use `arm-none-eabi` compiler triple and prefix. In case
+you want to use another compiler you should change the `TOOLCHAIN_PREFIX` variable in both CMake toolchain files and `TOOLCHAIN_TRIPLE` for
+Clang-specific file only:
+
+```cmake
+# arm-gcc-toolchain.cmake and clang-arm-gcc-toolchain.cmake
+set(TOOLCHAIN_PREFIX <your-compiler-prefix>)
+# clang-arm-gcc-toolchain.cmake ONLY
+set(TOOLCHAIN_TRIPLE <your-compiler-triple>)
+```
+
 ## Additional macros/functions in utils.cmake
 
 In the `utils.cmake` file you can find some useful macros/functions that you can add into your CMake files. 
