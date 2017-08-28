@@ -27,6 +27,16 @@ set(TOOLCHAIN_PREFIX <your-compiler-prefix>)
 set(TOOLCHAIN_TRIPLE <your-compiler-triple>)
 ```
 
+Also some options which is essential for **Cortex-M** specific compiler (`arm-none-eabi`) might be not relevant for your compiler.
+In that case you should simply delete obsolete lines from toolchain CMake file. For example the line below is not relevant for
+uClinux compiler:
+
+```cmake
+set(CMAKE_EXE_LINKER_FLAGS_INIT "--specs=nosys.specs")
+```
+
+And that line can be deleted while you use `arm-uclinuxeabi` compiler without any side effect.
+
 ## Additional macros/functions in utils.cmake
 
 In the `utils.cmake` file you can find some useful macros/functions that you can add into your CMake files. 
