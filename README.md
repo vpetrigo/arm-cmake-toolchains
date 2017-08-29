@@ -61,3 +61,14 @@ subdirlist(result current_dir)
 
 target_include_directories(<target> ${result})
 ```
+
+- `prepend_cur_dir`:
+
+```cmake
+# prepend ${CMAKE_CURRENT_SOURCE_DIR} to a directory
+# so that you have the full path to a header/source file
+# and store the result in the provided ${variable}
+prepend_cur_dir(full_path_to_dir dir)
+# the ${full_path_to_dir} for dir/ might be like:
+${full_path_to_dir} -> C:/Users/SpecificUser/Project/dir
+```
