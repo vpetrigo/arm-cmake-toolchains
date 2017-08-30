@@ -72,3 +72,17 @@ prepend_cur_dir(full_path_to_dir dir)
 # the ${full_path_to_dir} for dir/ might be like:
 ${full_path_to_dir} -> C:/Users/SpecificUser/Project/dir
 ```
+
+- `firmware_size`:
+
+```cmake
+# function that adds custom target that will
+# output resulted executable image size by using 
+# binutils size command
+add_executable(hello_world main.c)
+...
+firmware_size(hello_world)
+# Possible output:
+# text    data    bss     dec     hex     filename
+# 294880  81920   11592   388392  5ed28   hello_world
+```
