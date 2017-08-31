@@ -86,3 +86,16 @@ firmware_size(hello_world)
 # text    data    bss     dec     hex     filename
 # 294880  81920   11592   388392  5ed28   hello_world
 ```
+
+- `generate_object`:
+
+```cmake
+# function that adds custom target that will
+# generate additional output file with specified
+# type by using binutils objcopy
+add_executable(hello_world main.c)
+...
+generate_object(hello_world .hex ihex)
+# in addition to .elf file the hex file for
+# hello_world firmware would be generated
+```
