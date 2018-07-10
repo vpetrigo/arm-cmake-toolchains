@@ -17,7 +17,7 @@ execute_process(
 
 get_filename_component(ARM_TOOLCHAIN_DIR ${BINUTILS_PATH} DIRECTORY)
 # Without that flag CMake is not able to pass test compilation check
-set(CMAKE_EXE_LINKER_FLAGS_INIT "--specs=nosys.specs")
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}gcc)
 set(CMAKE_ASM_COMPILER ${CMAKE_C_COMPILER})
