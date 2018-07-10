@@ -34,3 +34,16 @@ function(generate_object target suffix type)
         "${CMAKE_CURRENT_BINARY_DIR}/${target}${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_BINARY_DIR}/${target}${suffix}"
     )
 endfunction()
+
+# Add custom linker script to the linker flags
+function(linker_script_add path_to_script)
+    string(APPEND CMAKE_EXE_LINKER_FLAGS " -T ${path_to_script}")
+endfunction()
+
+# Update a target LINK_DEPENDS property with a custom linker script.
+# That allows to rebuild that target if the linker script gets changed
+function(linker_script_target_dependency target path_to_script)
+    get_target_property(_cur_link_deps ${target} LINK_DEPENDS)
+    string(APPEND _cur_link_deps " ${path_to_script}")
+    set_target_properties(${target} PROPERTIES LINK_DEPENDS ${_cur_link_deps})
+endfunction()
