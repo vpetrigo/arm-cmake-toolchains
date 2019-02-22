@@ -1,2 +1,5 @@
 # IDEA
 /.idea/
+
+# CMake
+**/*build*/
