@@ -1,5 +1,7 @@
 function(emlib_add gecko_sdk_path)
     file(GLOB emlib_src ${gecko_sdk_path}/platform/emlib/src/*.c)
+    # em_int.c is deprecated in the 5.1.2 SDK so clean it up
+    string(REPLACE "em_int.c" "" emlib_src "${emlib_src}")
     set(emlib_src ${emlib_src} PARENT_SCOPE)
 endfunction()
 
