@@ -23,21 +23,24 @@ device_inc_dir(${SIL_GECKO_SDK} "EFM32GG")
 device_src_dir(${SIL_GECKO_SDK} "EFM32GG")
 gecko_cmsis_dir(${SIL_GECKO_SDK})
 
-set(dev_system_src ${device_src}/system_efm32gg.c)
-
 if ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
-    SET(CMAKE_EXE_LINKER_FLAGS "-Wl,-T ${LINKER_FILE} --specs=nosys.specs")
+    SET(CMAKE_EXE_LINKER_FLAGS "${CPU_FLAGS} -Wl,-T ${LINKER_FILE}")
 elseif("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
     message("Clang Bang")
 endif()
 
-list(FILTER emlib_src EXCLUDE REGEX ".*em_int.c")
+#list(FILTER emlib_src EXCLUDE REGEX ".*em_int.c")
 
 add_library(emlib ${emlib_src})
 target_include_directories(emlib PUBLIC ${emlib_inc} ${device_inc} ${cmsis_inc})
 
-add_executable(efm32_test main.c ${device_src}/GCC/startup_efm32gg.S ${dev_system_src})
-target_link_libraries(efm32_test emlib)
+add_library(startup ${device_src}/GCC/startup_efm32gg.c)
+add_library(system ${device_src}/system_efm32gg.c)
+target_include_directories(system PUBLIC ${emlib_inc} ${device_inc} ${cmsis_inc})
+
+add_executable(efm32_test main.c)
+target_link_libraries(efm32_test emlib startup system)
 
 firmware_size(efm32_test)
 generate_object(efm32_test .bin binary)
+generate_object(efm32_test .hex ihex)
