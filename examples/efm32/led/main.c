@@ -53,7 +53,7 @@ int main(void)
   GPIO_PinModeSet(gpioPortE, 3, gpioModePushPull, 0);
 
   while(true) {
-    MSP_Delay(10);
+    MSP_Delay(5);
     timer_val += inc;
 
     if (timer_val == 0 || timer_val == MAX_TOP_TIMER3) {
