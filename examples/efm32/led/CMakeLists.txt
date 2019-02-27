@@ -34,7 +34,7 @@ endif()
 add_library(emlib ${emlib_src})
 target_include_directories(emlib PUBLIC ${emlib_inc} ${device_inc} ${cmsis_inc})
 
-add_library(startup ${device_src}/GCC/startup_efm32gg.c)
+add_library(startup ${device_src}/GCC/startup_efm32gg.S)
 add_library(system ${device_src}/system_efm32gg.c)
 target_include_directories(system PUBLIC ${emlib_inc} ${device_inc} ${cmsis_inc})
 
