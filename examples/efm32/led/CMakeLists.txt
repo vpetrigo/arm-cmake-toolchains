@@ -24,10 +24,12 @@ device_src_dir(${SIL_GECKO_SDK} "EFM32GG")
 gecko_cmsis_dir(${SIL_GECKO_SDK})
 
 if ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
-    SET(CMAKE_EXE_LINKER_FLAGS "${CPU_FLAGS} -Wl,-T ${LINKER_FILE}")
+    set(CMAKE_EXE_LINKER_FLAGS "${CPU_FLAGS} -Wl,-T ${LINKER_FILE}")
 elseif("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
     message("Clang Bang")
 endif()
+
+string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,--gc-sections")
 
 #list(FILTER emlib_src EXCLUDE REGEX ".*em_int.c")
 
