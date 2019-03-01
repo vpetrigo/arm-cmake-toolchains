@@ -26,8 +26,12 @@ set(CMAKE_CXX_COMPILER_TARGET ${triple})
 
 set(CMAKE_C_FLAGS_INIT "-B${ARM_TOOLCHAIN_DIR}")
 set(CMAKE_CXX_FLAGS_INIT "-B${ARM_TOOLCHAIN_DIR}")
-# only for successful compilation of CMake test
-set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+# Without that flag CMake is not able to pass test compilation check
+if (${CMAKE_VERSION} VERSION_EQUAL "3.6.0" OR ${CMAKE_VERSION} VERSION_GREATER "3.6")
+    set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+else()
+    set(CMAKE_EXE_LINKER_FLAGS_INIT "--specs=nosys.specs")
+endif()
 # provide clang with ARM GCC toolchain include directory info
 include_directories(${ARM_TOOLCHAIN_DIR}/../${TOOLCHAIN_TRIPLE}/include)
 
