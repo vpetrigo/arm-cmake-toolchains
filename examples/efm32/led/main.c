@@ -5,14 +5,6 @@
 
 #define MAX_TOP_TIMER3  28000
 
-#ifdef __clang__
-int main(void);
-
-__attribute__((noreturn)) void _start(void) {
-    main();
-}
-#endif
-
 static volatile uint32_t ms_tick;
 
 void SysTick_Handler(void)
