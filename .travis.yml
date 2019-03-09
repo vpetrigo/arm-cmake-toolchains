@@ -55,24 +55,6 @@ matrix:
             - llvm-8
             - lld-8
 
-  allow_failures:
-    - os: linux
-      env:
-        - "C_COMPILER=clang-8"
-        - "CXX_COMPILER=clang++-8"
-        - "SIZE=llvm-size-8"
-        - "OBJCOPY=llvm-objcopy-8"
-        - "LINKER=lld-8"
-        - "LLD=ld.lld-8"
-      addons:
-        apt:
-          sources:
-            - llvm-toolchain-xenial-8
-          packages:
-            - clang-8
-            - llvm-8
-            - lld-8
-
 script:
   - $C_COMPILER --version
   - $CXX_COMPILER --version
