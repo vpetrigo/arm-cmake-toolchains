@@ -10,21 +10,8 @@ matrix:
         - "CXX_COMPILER=clang++-6.0"
         - "SIZE=llvm-size-6.0"
         - "OBJCOPY=llvm-objcopy-6.0"
-      addons:
-        apt:
-          sources:
-            - llvm-toolchain-xenial-6.0
-          packages:
-            - clang-6.0
-            - llvm-6.0
-            - lld-6.0
-  allow_failures:
-    - os: linux
-      env:
-        - "C_COMPILER=clang-6.0"
-        - "CXX_COMPILER=clang++-6.0"
-        - "SIZE=llvm-size-6.0"
-        - "OBJCOPY=llvm-objcopy-6.0"
+        - "LINKER=lld-6.0"
+        - "LLD=ld.lld-6.0"
       addons:
         apt:
           sources:
@@ -34,6 +21,41 @@ matrix:
             - llvm-6.0
             - lld-6.0
 
+    - os: linux
+      env:
+        - "C_COMPILER=clang-7"
+        - "CXX_COMPILER=clang++-7"
+        - "SIZE=llvm-size-7"
+        - "OBJCOPY=llvm-objcopy-7"
+        - "LINKER=lld-7"
+        - "LLD=ld.lld-7"
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-xenial-7
+          packages:
+            - clang-7
+            - llvm-7
+            - lld-7
+
+  allow_failures:
+    - os: linux
+      env:
+        - "C_COMPILER=clang-7"
+        - "CXX_COMPILER=clang++-7"
+        - "SIZE=llvm-size-7"
+        - "OBJCOPY=llvm-objcopy-7"
+        - "LINKER=lld-7"
+        - "LLD=ld.lld-7"
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-xenial-7
+          packages:
+            - clang-7
+            - llvm-7
+            - lld-7
+
 script:
   - $C_COMPILER --version
   - $CXX_COMPILER --version
@@ -41,8 +63,8 @@ script:
   - sudo update-alternatives --install /usr/bin/clang clang /usr/bin/${C_COMPILER} 1000 --slave /usr/bin/clang++ clang++ /usr/bin/${CXX_COMPILER}
   - sudo update-alternatives --install /usr/bin/llvm-size llvm-size /usr/bin/${SIZE} 1000
   - sudo update-alternatives --install /usr/bin/llvm-objcopy llvm-objcopy /usr/bin/${OBJCOPY} 1000
-  - sudo update-alternatives --install /usr/bin/lld lld /usr/bin/lld-6.0 1000
-  - sudo update-alternatives --install /usr/bin/ld.lld ld.lld /usr/bin/ld.lld-6.0 1000
+  - sudo update-alternatives --install /usr/bin/lld lld /usr/bin/${LINKER} 1000
+  - sudo update-alternatives --install /usr/bin/ld.lld ld.lld /usr/bin/${LLD} 1000
   - sudo update-alternatives --auto clang
   - update-alternatives --display clang
   - clang --version
