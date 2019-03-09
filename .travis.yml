@@ -8,19 +8,8 @@ matrix:
       env:
         - "C_COMPILER=clang-6.0"
         - "CXX_COMPILER=clang++-6.0"
-      addons:
-        apt:
-          sources:
-            - llvm-toolchain-xenial-6.0
-          packages:
-            - clang-6.0
-            - llvm-6
-            - lld-6
-  allow_failures:
-    - os: linux
-      env:
-        - "C_COMPILER=clang-6.0"
-        - "CXX_COMPILER=clang++-6.0"
+        - "SIZE=llvm-size-6.0"
+        - "OBJCOPY=llvm-objcopy-6.0"
       addons:
         apt:
           sources:
@@ -28,13 +17,36 @@ matrix:
           packages:
             - clang-6.0
             - llvm-6.0
-            - lld-6
+            - lld-6.0
+  allow_failures:
+    - os: linux
+      env:
+        - "C_COMPILER=clang-6.0"
+        - "CXX_COMPILER=clang++-6.0"
+        - "SIZE=llvm-size-6.0"
+        - "OBJCOPY=llvm-objcopy-6.0"
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-xenial-6.0
+          packages:
+            - clang-6.0
+            - llvm-6.0
+            - lld-6.0
 
 script:
   - $C_COMPILER --version
   - $CXX_COMPILER --version
-  - which llvm-objdump
-  - which llvm-objdump-6.0
-  - which llvm-size
-  - which llvm-size-6.0
-  - which bash
+  - export PATH=/usr/bin:$PATH
+  - sudo update-alternatives --install /usr/bin/clang clang /usr/bin/${C_COMPILER} 1000 --slave /usr/bin/clang++ clang++ /usr/bin/${CXX_COMPILER}
+  - sudo update-alternatives --install /usr/bin/llvm-size llvm-size /usr/bin/${SIZE} 1000
+  - sudo update-alternatives --install /usr/bin/llvm-objcopy llvm-objcopy /usr/bin/${OBJCOPY} 1000
+  - sudo update-alternatives --install /usr/bin/lld lld /usr/bin/lld-6.0 1000
+  - sudo update-alternatives --install /usr/bin/ld.lld ld.lld /usr/bin/ld.lld-6.0 1000
+  - sudo update-alternatives --auto clang
+  - update-alternatives --display clang
+  - clang --version
+  - llvm-size --version
+  - llvm-objcopy --version
+  - ld.lld --version
+  - sh ci/script.sh
