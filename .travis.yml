@@ -83,9 +83,8 @@ script:
   - sudo update-alternatives --install /usr/bin/lld lld /usr/bin/${LINKER} 1000
   - sudo update-alternatives --install /usr/bin/ld.lld ld.lld /usr/bin/${LLD} 1000
   - sudo update-alternatives --auto clang
-  - update-alternatives --display clang
   - clang --version
   - llvm-size --version
-  - llvm-objcopy -version
+  - llvm-objcopy -version || true
   - ld.lld --version
   - sh ci/script.sh
