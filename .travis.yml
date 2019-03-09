@@ -37,3 +37,4 @@ script:
   - which llvm-objdump-6.0
   - which llvm-size
   - which llvm-size-6.0
+  - which bash
