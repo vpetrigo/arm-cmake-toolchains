@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/vpetrigo/arm-cmake-toolchains.svg?branch=master)](https://travis-ci.com/vpetrigo/arm-cmake-toolchains)
+
 # CMake toolchain files for ARM GCC compiler
 
 This repo contains CMake toolchain files that utilizes [ARM GCC](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm).
