@@ -2,27 +2,28 @@
 
 set -ex
 
+TRAVIS_OS_NAME="linux"
+C_COMPILER="clang"
+
 set_clang() {
     if [ ${TRAVIS_OS_NAME} = "linux" ]; then
         # Make package installation path preceed Travis installed packages in /usr/local/bin
-        export PATH=/usr/bin:$PATH
-        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/${C_COMPILER} 1000 --slave /usr/bin/clang++ clang++ /usr/bin/${CXX_COMPILER}
-        sudo update-alternatives --install /usr/bin/llvm-size llvm-size /usr/bin/${SIZE} 1000
-        sudo update-alternatives --install /usr/bin/llvm-objcopy llvm-objcopy /usr/bin/${OBJCOPY} 1000
-        sudo update-alternatives --install /usr/bin/lld lld /usr/bin/${LINKER} 1000
-        sudo update-alternatives --install /usr/bin/ld.lld ld.lld /usr/bin/${LLD} 1000
+        #export PATH=/usr/bin:$PATH
+        #sudo update-alternatives --install /usr/bin/clang clang /usr/bin/${C_COMPILER} 1000 --slave /usr/bin/clang++ clang++ /usr/bin/${CXX_COMPILER}
+        #sudo update-alternatives --install /usr/bin/llvm-size llvm-size /usr/bin/${SIZE} 1000
+        #sudo update-alternatives --install /usr/bin/llvm-objcopy llvm-objcopy /usr/bin/${OBJCOPY} 1000
+        #sudo update-alternatives --install /usr/bin/lld lld /usr/bin/${LINKER} 1000
+        #sudo update-alternatives --install /usr/bin/ld.lld ld.lld /usr/bin/${LLD} 1000
+        echo tmp
     elif [ ${TRAVIS_OS_NAME} = "osx" ]; then
         export PATH="/usr/local/opt/${LLVM_PKG}/bin:$PATH"
     fi
 
     clang --version
     llvm-size --version || true
-    size --version
     # LLVM objcopy version 7 misses `--version` support
     llvm-objcopy -version || true
-    objcopy --version || true
-    gobjcopy --version || true
-    ld --version || true
+    lld --version || true
 }
 
 if [ ! -z "${TRAVIS+set}" ]; then
@@ -66,13 +67,15 @@ PROJECT_ROOT="`pwd`"
 arm-none-eabi-gcc --version
 
 cd examples/efm32/led
-mkdir -p build-clang
-cd build-clang
 
 if [ "${C_COMPILER}" != "${C_COMPILER%*clang*}" ]; then
+    mkdir -p build-clang
+    cd build-clang
     cmake .. -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/clang-arm-gcc-toolchain.cmake
 else
-    cmake .. -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/arm-gcc-toolchain.cmake
+    mkdir -p build-gcc
+    cd build-gcc
+    cmake .. -G Ninja -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/arm-gcc-toolchain.cmake
 fi
 
 cmake --build .

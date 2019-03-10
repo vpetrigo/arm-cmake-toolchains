@@ -28,11 +28,18 @@ gecko_cmsis_dir(${SIL_GECKO_SDK})
 if("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
     string(APPEND CMAKE_EXE_LINKER_FLAGS " -nostdlib")
     string(APPEND CMAKE_EXE_LINKER_FLAGS " -L${ARM_TOOLCHAIN_DIR}/../arm-none-eabi/lib/thumb/v7-m/nofp")
-    string(APPEND CMAKE_EXE_LINKER_FLAGS " -lnosys -lc")
+    string(APPEND CMAKE_EXE_LINKER_FLAGS " -L${ARM_TOOLCHAIN_DIR}/../lib/gcc/arm-none-eabi/8.2.1/thumb/v7-m/nofp")
+    string(APPEND CMAKE_EXE_LINKER_FLAGS " -lgcc -lnosys -lc -lg")
+elseif("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
+    string(REGEX MATCH ".*\.specs.*" has_specs "${CMAKE_EXE_LINKER_FLAGS}")
+    
+    if(NOT has_specs)
+        string(APPEND CMAKE_EXE_LINKER_FLAGS " --specs=nosys.specs")
+    endif()
 endif()
 
 string(APPEND CMAKE_EXE_LINKER_FLAGS " ${CPU_FLAGS} -Wl,-T ${LINKER_FILE}")
-string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,--gc-sections")
+# string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,--gc-sections")
 
 
 add_library(emlib ${emlib_src})
