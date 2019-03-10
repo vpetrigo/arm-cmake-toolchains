@@ -3,13 +3,15 @@
 set -ex
 
 set_clang() {
-    # Make package installation path preceed Travis installed packages in /usr/local/bin
-    export PATH=/usr/bin:$PATH
-    sudo update-alternatives --install /usr/bin/clang clang /usr/bin/${C_COMPILER} 1000 --slave /usr/bin/clang++ clang++ /usr/bin/${CXX_COMPILER}
-    sudo update-alternatives --install /usr/bin/llvm-size llvm-size /usr/bin/${SIZE} 1000
-    sudo update-alternatives --install /usr/bin/llvm-objcopy llvm-objcopy /usr/bin/${OBJCOPY} 1000
-    sudo update-alternatives --install /usr/bin/lld lld /usr/bin/${LINKER} 1000
-    sudo update-alternatives --install /usr/bin/ld.lld ld.lld /usr/bin/${LLD} 1000
+    if [ ${TRAVIS_OS_NAME} = "linux" ]; then
+        # Make package installation path preceed Travis installed packages in /usr/local/bin
+        export PATH=/usr/bin:$PATH
+        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/${C_COMPILER} 1000 --slave /usr/bin/clang++ clang++ /usr/bin/${CXX_COMPILER}
+        sudo update-alternatives --install /usr/bin/llvm-size llvm-size /usr/bin/${SIZE} 1000
+        sudo update-alternatives --install /usr/bin/llvm-objcopy llvm-objcopy /usr/bin/${OBJCOPY} 1000
+        sudo update-alternatives --install /usr/bin/lld lld /usr/bin/${LINKER} 1000
+        sudo update-alternatives --install /usr/bin/ld.lld ld.lld /usr/bin/${LLD} 1000
+    fi
 
     clang --version
     llvm-size --version
