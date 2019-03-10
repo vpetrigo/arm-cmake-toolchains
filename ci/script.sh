@@ -24,7 +24,7 @@ if [ ! -z "${TRAVIS+set}" ]; then
         set_clang
         ;;
     *gcc*)
-        echo GCC
+        # Do nothing here at that point
         ;;
     *)
         exit 1
