@@ -3,19 +3,26 @@
 set -ex
 
 set_clang() {
-    # Make package installation path preceed Travis installed packages in /usr/local/bin
-    export PATH=/usr/bin:$PATH
-    sudo update-alternatives --install /usr/bin/clang clang /usr/bin/${C_COMPILER} 1000 --slave /usr/bin/clang++ clang++ /usr/bin/${CXX_COMPILER}
-    sudo update-alternatives --install /usr/bin/llvm-size llvm-size /usr/bin/${SIZE} 1000
-    sudo update-alternatives --install /usr/bin/llvm-objcopy llvm-objcopy /usr/bin/${OBJCOPY} 1000
-    sudo update-alternatives --install /usr/bin/lld lld /usr/bin/${LINKER} 1000
-    sudo update-alternatives --install /usr/bin/ld.lld ld.lld /usr/bin/${LLD} 1000
+    if [ ${TRAVIS_OS_NAME} = "linux" ]; then
+        # Make package installation path preceed Travis installed packages in /usr/local/bin
+        export PATH=/usr/bin:$PATH
+        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/${C_COMPILER} 1000 --slave /usr/bin/clang++ clang++ /usr/bin/${CXX_COMPILER}
+        sudo update-alternatives --install /usr/bin/llvm-size llvm-size /usr/bin/${SIZE} 1000
+        sudo update-alternatives --install /usr/bin/llvm-objcopy llvm-objcopy /usr/bin/${OBJCOPY} 1000
+        sudo update-alternatives --install /usr/bin/lld lld /usr/bin/${LINKER} 1000
+        sudo update-alternatives --install /usr/bin/ld.lld ld.lld /usr/bin/${LLD} 1000
+    elif [ ${TRAVIS_OS_NAME} = "osx" ]; then
+        export PATH="/usr/local/opt/${LLVM_PKG}/bin:$PATH"
+    fi
 
     clang --version
-    llvm-size --version
+    llvm-size --version || true
+    size --version
     # LLVM objcopy version 7 misses `--version` support
     llvm-objcopy -version || true
-    ld.lld --version
+    objcopy --version || true
+    gobjcopy --version || true
+    ld --version || true
 }
 
 if [ ! -z "${TRAVIS+set}" ]; then
@@ -34,7 +41,20 @@ fi
 
 # Download ARM GCC toolchain from the official site
 # wget https://developer.arm.com/-/media/Files/downloads/gnu-rm/8-2018q4/gcc-arm-none-eabi-8-2018-q4-major-linux.tar.bz2 -O gcc-arm-none-eabi.tar.bz2
-curl -k -L https://developer.arm.com/-/media/Files/downloads/gnu-rm/8-2018q4/gcc-arm-none-eabi-8-2018-q4-major-linux.tar.bz2 -o gcc-arm-none-eabi.tar.bz2
+case "${TRAVIS_OS_NAME}" in
+    linux)
+        ARM_GCC_URI="https://developer.arm.com/-/media/Files/downloads/gnu-rm/8-2018q4/gcc-arm-none-eabi-8-2018-q4-major-linux.tar.bz2"
+        ;;
+    osx)
+        ARM_GCC_URI="https://developer.arm.com/-/media/Files/downloads/gnu-rm/8-2018q4/gcc-arm-none-eabi-8-2018-q4-major-mac.tar.bz2"
+        ;;
+    *)
+        >&2 echo "Unknown OS"
+        exit 1
+        ;;
+esac
+
+curl -k -L ${ARM_GCC_URI} -o gcc-arm-none-eabi.tar.bz2
 # curl -k -L https://developer.arm.com/-/media/Files/downloads/gnu-rm/8-2018q4/gcc-arm-none-eabi-8-2018-q4-major-win32.zip -o gcc-arm-none-eabi.zip
 tar jxf gcc-arm-none-eabi.tar.bz2
 # unzip gcc-arm-none-eabi.zip

@@ -2,9 +2,16 @@ language: c
 
 dist: xenial
 
+branches:
+  only:
+    - master
+
 matrix:
   fast_finish: true
   include:
+
+    # ARM GCC (Linux)
+
     - os: linux
       name: "ARM GCC"
       env:
@@ -14,6 +21,8 @@ matrix:
         - "OBJCOPY=arm-none-eabi-objcopy"
         - "LINKER=arm-none-eabi-ld"
         - "LLD=arm-none-eabi-ld.bfd"
+
+    # Clang/LLVM + ARM GCC (Linux)
 
     - os: linux
       name: "Clang 6.0"
@@ -68,6 +77,42 @@ matrix:
             - clang-8
             - llvm-8
             - lld-8
+
+    # Clang/LLVM (macOS)
+
+    - os: osx
+      osx_image: xcode10.1
+      name: "Mac OSX LLVM 7"
+      env:
+        - "C_COMPILER=clang"
+        - "CXX_COMPILER=clang++"
+        - "SIZE=llvm-size"
+        - "OBJCOPY=llvm-objcopy"
+        - "LINKER=lld"
+        - "LLD=ld.lld"
+        - "LLVM_PKG=llvm"
+      addons:
+        homebrew:
+          packages:
+            - llvm@7
+          update: true
+
+    - os: osx
+      osx_image: xcode10.1
+      name: "Mac OSX LLVM 6"
+      env:
+        - "C_COMPILER=clang"
+        - "CXX_COMPILER=clang++"
+        - "SIZE=llvm-size"
+        - "OBJCOPY=llvm-objcopy"
+        - "LINKER=lld"
+        - "LLD=ld.lld"
+        - "LLVM_PKG=llvm@6"
+      addons:
+        homebrew:
+          packages:
+            - llvm@6
+          update: true
 
 script:
   - sh ci/script.sh
