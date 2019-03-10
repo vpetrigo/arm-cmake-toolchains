@@ -2,6 +2,10 @@ language: c
 
 dist: xenial
 
+branches:
+  only:
+    - master
+
 matrix:
   fast_finish: true
   include:
