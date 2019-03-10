@@ -2,9 +2,9 @@ language: c
 
 dist: xenial
 
-branches:
-  only:
-    - master
+#branches:
+#  only:
+#    - master
 
 matrix:
   fast_finish: true
@@ -21,6 +21,10 @@ matrix:
         - "OBJCOPY=arm-none-eabi-objcopy"
         - "LINKER=arm-none-eabi-ld"
         - "LLD=arm-none-eabi-ld.bfd"
+      addons:
+        apt:
+          packages:
+            - ninja-build
 
     # Clang/LLVM + ARM GCC (Linux)
 
@@ -41,6 +45,7 @@ matrix:
             - clang-6.0
             - llvm-6.0
             - lld-6.0
+            - ninja-build
 
     - os: linux
       name: "Clang 7.0"
@@ -59,6 +64,7 @@ matrix:
             - clang-7
             - llvm-7
             - lld-7
+            - ninja-build
 
     - os: linux
       name: "Clang 8.0"
@@ -77,6 +83,7 @@ matrix:
             - clang-8
             - llvm-8
             - lld-8
+            - ninja-build
 
     # Clang/LLVM (macOS)
 
@@ -95,6 +102,7 @@ matrix:
         homebrew:
           packages:
             - llvm@7
+            - ninja
           update: true
 
     - os: osx
@@ -112,6 +120,7 @@ matrix:
         homebrew:
           packages:
             - llvm@6
+            - ninja
           update: true
 
 script:

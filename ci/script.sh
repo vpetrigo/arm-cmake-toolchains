@@ -70,9 +70,9 @@ mkdir -p build-clang
 cd build-clang
 
 if [ "${C_COMPILER}" != "${C_COMPILER%*clang*}" ]; then
-    cmake .. -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/clang-arm-gcc-toolchain.cmake
+    cmake .. -G Ninja -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/clang-arm-gcc-toolchain.cmake
 else
-    cmake .. -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/arm-gcc-toolchain.cmake
+    cmake .. -G Ninja -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/arm-gcc-toolchain.cmake
 fi
 
 cmake --build .
