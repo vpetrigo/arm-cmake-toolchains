@@ -1,8 +1,8 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 set -ex
 
-if [[ ! -z ${TRAVIS+set} ]]; then
+if [ ! -z "${TRAVIS+set}" ]; then
     sudo update-alternatives --install /usr/bin/clang clang /usr/bin/${C_COMPILER} 1000 --slave /usr/bin/clang++ clang++ /usr/bin/${CXX_COMPILER}
     sudo update-alternatives --install /usr/bin/llvm-size llvm-size /usr/bin/${SIZE} 1000
     sudo update-alternatives --install /usr/bin/llvm-objcopy llvm-objcopy /usr/bin/${OBJCOPY} 1000
