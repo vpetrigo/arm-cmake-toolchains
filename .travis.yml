@@ -3,8 +3,20 @@ language: c
 dist: xenial
 
 matrix:
+  fast_finish: true
   include:
     - os: linux
+      name: "ARM GCC"
+      env:
+        - "C_COMPILER=arm-none-eabi-gcc"
+        - "CXX_COMPILER=arm-none-eabi-gcc"
+        - "SIZE=arm-none-eabi-size"
+        - "OBJCOPY=arm-none-eabi-objcopy"
+        - "LINKER=arm-none-eabi-ld"
+        - "LLD=arm-none-eabi-ld.bfd"
+
+    - os: linux
+      name: "Clang 6.0"
       env:
         - "C_COMPILER=clang-6.0"
         - "CXX_COMPILER=clang++-6.0"
@@ -22,6 +34,7 @@ matrix:
             - lld-6.0
 
     - os: linux
+      name: "Clang 7.0"
       env:
         - "C_COMPILER=clang-7"
         - "CXX_COMPILER=clang++-7"
@@ -39,6 +52,7 @@ matrix:
             - lld-7
 
     - os: linux
+      name: "Clang 8.0"
       env:
         - "C_COMPILER=clang-8"
         - "CXX_COMPILER=clang++-8"

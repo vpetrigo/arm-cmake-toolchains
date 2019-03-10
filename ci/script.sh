@@ -2,7 +2,7 @@
 
 set -ex
 
-if [ ! -z "${TRAVIS+set}" ]; then
+set_clang() {
     # Make package installation path preceed Travis installed packages in /usr/local/bin
     export PATH=/usr/bin:$PATH
     sudo update-alternatives --install /usr/bin/clang clang /usr/bin/${C_COMPILER} 1000 --slave /usr/bin/clang++ clang++ /usr/bin/${CXX_COMPILER}
@@ -16,6 +16,20 @@ if [ ! -z "${TRAVIS+set}" ]; then
     # LLVM objcopy version 7 misses `--version` support
     llvm-objcopy -version || true
     ld.lld --version
+}
+
+if [ ! -z "${TRAVIS+set}" ]; then
+    case "${C_COMPILER}" in
+    *clang*)
+        set_clang
+        ;;
+    *gcc*)
+        # Do nothing here at that point
+        ;;
+    *)
+        exit 1
+        ;;
+esac
 fi
 
 # Download ARM GCC toolchain from the official site
@@ -35,5 +49,10 @@ cd examples/efm32/led
 mkdir -p build-clang
 cd build-clang
 
-cmake .. -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/clang-arm-gcc-toolchain.cmake
+if [ "${C_COMPILER}" != "${C_COMPILER%*clang*}" ]; then
+    cmake .. -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/clang-arm-gcc-toolchain.cmake
+else
+    cmake .. -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/arm-gcc-toolchain.cmake
+fi
+
 cmake --build .
