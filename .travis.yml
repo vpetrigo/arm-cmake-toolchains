@@ -3,6 +3,7 @@ language: c
 dist: xenial
 
 matrix:
+  fast_finish: true
   include:
     - os: linux
       name: "ARM GCC"
