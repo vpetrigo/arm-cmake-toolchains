@@ -6,6 +6,15 @@ matrix:
   include:
     - os: linux
       env:
+        - "C_COMPILER=arm-none-eabi-gcc"
+        - "CXX_COMPILER=arm-none-eabi-gcc"
+        - "SIZE=arm-none-eabi-size"
+        - "OBJCOPY=arm-none-eabi-objcopy"
+        - "LINKER=arm-none-eabi-ld"
+        - "LLD=arm-none-eabi-ld.bfd"
+
+    - os: linux
+      env:
         - "C_COMPILER=clang-6.0"
         - "CXX_COMPILER=clang++-6.0"
         - "SIZE=llvm-size-6.0"
