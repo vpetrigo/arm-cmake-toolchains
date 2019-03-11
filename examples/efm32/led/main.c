@@ -65,11 +65,3 @@ int main(void)
 
   return 0;
 }
-
-void exit(int code) {
-  (void) code;
-
-  while (1) {
-
-  }
-}
