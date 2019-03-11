@@ -29,7 +29,7 @@ if("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
     string(APPEND CMAKE_EXE_LINKER_FLAGS " -nostdlib")
     string(APPEND CMAKE_EXE_LINKER_FLAGS " -L${ARM_TOOLCHAIN_DIR}/../arm-none-eabi/lib/thumb/v7-m/nofp")
     string(APPEND CMAKE_EXE_LINKER_FLAGS " -L${ARM_TOOLCHAIN_DIR}/../lib/gcc/arm-none-eabi/8.2.1/thumb/v7-m/nofp")
-    string(APPEND CMAKE_EXE_LINKER_FLAGS " -lgcc -lnosys -lc -lg")
+    string(APPEND CMAKE_EXE_LINKER_FLAGS " -lgcc -lnosys -lc")
 elseif("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
     string(REGEX MATCH ".*\.specs.*" has_specs "${CMAKE_EXE_LINKER_FLAGS}")
     
@@ -39,7 +39,7 @@ elseif("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
 endif()
 
 string(APPEND CMAKE_EXE_LINKER_FLAGS " ${CPU_FLAGS} -Wl,-T ${LINKER_FILE}")
-# string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,--gc-sections")
+string(APPEND CMAKE_EXE_LINKER_FLAGS " -Wl,--gc-sections")
 
 
 add_library(emlib ${emlib_src})
@@ -54,7 +54,7 @@ if ("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
     list(APPEND efm32_test_obj ${ARM_TOOLCHAIN_DIR}/../lib/gcc/arm-none-eabi/8.2.1/thumb/v7-m/nofp/crti.o)
 endif()
 
- add_executable(efm32_test main.c ${efm32_test_obj})
+add_executable(efm32_test main.c ${efm32_test_obj})
 target_link_libraries(efm32_test emlib startup system)
 
 firmware_size(efm32_test)
