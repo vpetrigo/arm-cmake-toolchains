@@ -17,12 +17,9 @@ set_clang() {
 
     clang --version
     llvm-size --version || true
-    size --version
     # LLVM objcopy version 7 misses `--version` support
     llvm-objcopy -version || true
-    objcopy --version || true
-    gobjcopy --version || true
-    ld --version || true
+    lld --version || true
 }
 
 if [ ! -z "${TRAVIS+set}" ]; then
@@ -66,12 +63,14 @@ PROJECT_ROOT="`pwd`"
 arm-none-eabi-gcc --version
 
 cd examples/efm32/led
-mkdir -p build-clang
-cd build-clang
 
 if [ "${C_COMPILER}" != "${C_COMPILER%*clang*}" ]; then
+    mkdir -p build-clang
+    cd build-clang
     cmake .. -G Ninja -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/clang-arm-gcc-toolchain.cmake
 else
+    mkdir -p build-gcc
+    cd build-gcc
     cmake .. -G Ninja -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/arm-gcc-toolchain.cmake
 fi
 
