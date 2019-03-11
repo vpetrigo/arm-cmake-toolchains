@@ -2,9 +2,9 @@ language: c
 
 dist: xenial
 
-#branches:
-#  only:
-#    - master
+branches:
+  only:
+    - master
 
 matrix:
   fast_finish: true
