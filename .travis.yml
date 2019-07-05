@@ -97,7 +97,7 @@ matrix:
         - "OBJCOPY=llvm-objcopy"
         - "LINKER=lld"
         - "LLD=ld.lld"
-        - "LLVM_PKG=llvm"
+        - "LLVM_PKG=llvm@7"
       addons:
         homebrew:
           packages:
