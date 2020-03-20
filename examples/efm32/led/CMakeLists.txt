@@ -7,13 +7,13 @@ set(CMAKE_CXX_COMPILER_TARGET thumbv7m-unknown-none-eabi)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-set(CPU_FLAGS -mthumb -mcpu=cortex-m3 -march=armv7-m -mfloat-abi=soft)
+set(CPU_FLAGS -mthumb -mcpu=cortex-m3 -mfloat-abi=soft)
 set(COMPILER_FLAGS -ffreestanding -ffunction-sections -fdata-sections -fsigned-char -fmessage-length=0 -fshort-enums)
 set(SIL_GECKO_SDK "${CMAKE_CURRENT_LIST_DIR}/../Gecko_SDK")
 set(PLATFORM_PATH "platform/Device/SiliconLabs/EFM32GG")
 set(LINKER_FILE "${CMAKE_CURRENT_LIST_DIR}/efm32gg.ld")
 
-add_definitions(${CPU_FLAGS} ${COMPILER_FLAGS})
+add_compile_options(${CPU_FLAGS} ${COMPILER_FLAGS})
 add_definitions(-DEFM32GG990F1024)
 
 include(../../../utils.cmake)
@@ -30,18 +30,20 @@ if("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
     clang_utils_get_arm_gcc_sysroot(${ARM_GCC_C_COMPILER} ${CPU_FLAGS})
     clang_utils_get_arm_gcc_multilib_dir(${ARM_GCC_C_COMPILER} ${CPU_FLAGS})
     clang_utils_get_arm_gcc_lib_dir(${ARM_GCC_C_COMPILER} ${CPU_FLAGS})
-    add_link_options(-nostdlib -L${ARM_GCC_SYSROOT}/lib/${ARM_GCC_MULTIDIR} -L${ARM_GCC_LIBGCC_DIR})
     clang_utils_get_arm_gcc_crt(${ARM_GCC_SYSROOT} ${ARM_GCC_MULTIDIR} ${ARM_GCC_LIBGCC_DIR})
-    add_link_options(-lgcc -lnosys -lc)
+    string(APPEND CMAKE_EXE_LINKER_FLAGS
+        " -nostdlib -L${ARM_GCC_SYSROOT}/lib/${ARM_GCC_MULTIDIR} -L${ARM_GCC_LIBGCC_DIR}")
+    string(APPEND CMAKE_EXE_LINKER_FLAGS " -lgcc -lnosys -lc")
 elseif("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
     string(REGEX MATCH ".*\.specs.*" has_specs "${CMAKE_EXE_LINKER_FLAGS}")
 
     if(NOT has_specs)
-        add_link_options(--specs=nosys.specs)
+        string(APPEND CMAKE_EXE_LINKER_FLAGS " --specs=nosys.specs")
     endif()
 endif()
 
-add_link_options(${CPU_FLAGS} -Wl,-T ${LINKER_FILE} --Wl,--gc-sections)
+string(REPLACE ";" " " _LINKER_CPU_FLAGS "${CPU_FLAGS}")
+string(APPEND CMAKE_EXE_LINKER_FLAGS " ${_LINKER_CPU_FLAGS} -Wl,-T ${LINKER_FILE} --Wl,--gc-sections")
 
 
 add_library(emlib ${emlib_src})
