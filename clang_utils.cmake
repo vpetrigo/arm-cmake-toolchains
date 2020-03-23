@@ -32,17 +32,17 @@ endmacro()
 
 # Retrieve ARM GCC libgcc directory for further usage with Clang
 # Pass @compiler and @cpu_flags and the macro set up
-# ARM_GCC_LIBGCC variable with proper libgcc path string
+# ARM_GCC_LIBGCC_DIR variable with proper libgcc path string
 # Example:
 # ```cmake
 # set(ARM_GCC_C_COMPILER arm-none-eabi-gcc)
 # set(CPU_FLAGS -mthumb -mcpu=cortex-m3)
 # clang_utils_get_arm_gcc_lib_dir(${ARM_GCC_C_COMPILER} ${CPU_FLAGS})
-# message("ARM GCC multilib: ${ARM_GCC_LIBGCC}")
+# message("ARM GCC multilib: ${ARM_GCC_LIBGCC_DIR}")
 # ```
 macro(clang_utils_get_arm_gcc_lib_dir compiler cpu_flags)
     execute_process(COMMAND ${compiler} ${cpu_flags} -print-libgcc-file-name
-        OUTPUT_VARIABLE ARM_GCC_LIBGCC
+        OUTPUT_VARIABLE ARM_GCC_LIBGCC_DIR
         OUTPUT_STRIP_TRAILING_WHITESPACE)
 endmacro()
 
