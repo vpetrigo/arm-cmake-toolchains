@@ -43,8 +43,7 @@ elseif("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
 endif()
 
 string(REPLACE ";" " " _LINKER_CPU_FLAGS "${CPU_FLAGS}")
-string(APPEND CMAKE_EXE_LINKER_FLAGS " ${_LINKER_CPU_FLAGS} -Wl,-T ${LINKER_FILE} --Wl,--gc-sections")
-
+string(APPEND CMAKE_EXE_LINKER_FLAGS " ${_LINKER_CPU_FLAGS} -Wl,-T ${LINKER_FILE} -Wl,--gc-sections")
 
 add_library(emlib ${emlib_src})
 target_include_directories(emlib PUBLIC ${emlib_inc} ${device_inc} ${cmsis_inc})
