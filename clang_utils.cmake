@@ -42,6 +42,9 @@ endmacro()
 # ```
 macro(clang_utils_get_arm_gcc_lib_dir compiler cpu_flags)
     execute_process(COMMAND ${compiler} ${cpu_flags} -print-libgcc-file-name
+        OUTPUT_VARIABLE __ARM_GCC_LIBGCC
+        OUTPUT_STRIP_TRAILING_WHITESPACE)
+    execute_process(COMMAND dirname ${__ARM_GCC_LIBGCC}
         OUTPUT_VARIABLE ARM_GCC_LIBGCC_DIR
         OUTPUT_STRIP_TRAILING_WHITESPACE)
 endmacro()
