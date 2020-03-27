@@ -29,44 +29,6 @@ matrix:
     # Clang/LLVM + ARM GCC (Linux)
 
     - os: linux
-      name: "Clang 6.0"
-      env:
-        - "C_COMPILER=clang-6.0"
-        - "CXX_COMPILER=clang++-6.0"
-        - "SIZE=llvm-size-6.0"
-        - "OBJCOPY=llvm-objcopy-6.0"
-        - "LINKER=lld-6.0"
-        - "LLD=ld.lld-6.0"
-      addons:
-        apt:
-          sources:
-            - llvm-toolchain-xenial-6.0
-          packages:
-            - clang-6.0
-            - llvm-6.0
-            - lld-6.0
-            - ninja-build
-
-    - os: linux
-      name: "Clang 7.0"
-      env:
-        - "C_COMPILER=clang-7"
-        - "CXX_COMPILER=clang++-7"
-        - "SIZE=llvm-size-7"
-        - "OBJCOPY=llvm-objcopy-7"
-        - "LINKER=lld-7"
-        - "LLD=ld.lld-7"
-      addons:
-        apt:
-          sources:
-            - llvm-toolchain-xenial-7
-          packages:
-            - clang-7
-            - llvm-7
-            - lld-7
-            - ninja-build
-
-    - os: linux
       name: "Clang 8.0"
       env:
         - "C_COMPILER=clang-8"
@@ -86,10 +48,9 @@ matrix:
             - ninja-build
 
     # Clang/LLVM (macOS)
-
     - os: osx
       osx_image: xcode10.1
-      name: "Mac OSX LLVM 7"
+      name: "Mac OSX LLVM 10"
       env:
         - "C_COMPILER=clang"
         - "CXX_COMPILER=clang++"
@@ -97,17 +58,17 @@ matrix:
         - "OBJCOPY=llvm-objcopy"
         - "LINKER=lld"
         - "LLD=ld.lld"
-        - "LLVM_PKG=llvm@7"
+        - "LLVM_PKG=llvm@10"
       addons:
         homebrew:
           packages:
-            - llvm@7
+            - llvm@10
             - ninja
           update: true
 
     - os: osx
       osx_image: xcode10.1
-      name: "Mac OSX LLVM 6"
+      name: "Mac OSX LLVM 9"
       env:
         - "C_COMPILER=clang"
         - "CXX_COMPILER=clang++"
@@ -115,11 +76,29 @@ matrix:
         - "OBJCOPY=llvm-objcopy"
         - "LINKER=lld"
         - "LLD=ld.lld"
-        - "LLVM_PKG=llvm@6"
+        - "LLVM_PKG=llvm@9"
       addons:
         homebrew:
           packages:
-            - llvm@6
+            - llvm@9
+            - ninja
+          update: true
+
+    - os: osx
+      osx_image: xcode10.1
+      name: "Mac OSX LLVM 8"
+      env:
+        - "C_COMPILER=clang"
+        - "CXX_COMPILER=clang++"
+        - "SIZE=llvm-size"
+        - "OBJCOPY=llvm-objcopy"
+        - "LINKER=lld"
+        - "LLD=ld.lld"
+        - "LLVM_PKG=llvm@8"
+      addons:
+        homebrew:
+          packages:
+            - llvm@8
             - ninja
           update: true
 
