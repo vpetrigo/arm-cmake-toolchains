@@ -27,6 +27,25 @@ matrix:
             - ninja-build
 
     # Clang/LLVM + ARM GCC (Linux)
+    - os: linux
+      name: "Clang 9.0"
+      env:
+        - "C_COMPILER=clang-9"
+        - "CXX_COMPILER=clang++-9"
+        - "SIZE=llvm-size-9"
+        - "OBJCOPY=llvm-objcopy-9"
+        - "LINKER=lld-9"
+        - "LLD=ld.lld-9"
+      addons:
+        apt:
+          sources:
+            - sourceline: "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main"
+              key_url: "https://apt.llvm.org/llvm-snapshot.gpg.key"
+          packages:
+            - clang-9
+            - llvm-9
+            - lld-9
+            - ninja-build
 
     - os: linux
       name: "Clang 8.0"
