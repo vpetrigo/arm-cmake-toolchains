@@ -28,6 +28,26 @@ matrix:
 
     # Clang/LLVM + ARM GCC (Linux)
     - os: linux
+      name: "Clang 10.0"
+      env:
+        - "C_COMPILER=clang-10"
+        - "CXX_COMPILER=clang++-10"
+        - "SIZE=llvm-size-10"
+        - "OBJCOPY=llvm-objcopy-10"
+        - "LINKER=lld-10"
+        - "LLD=ld.lld-10"
+      addons:
+        apt:
+          sources:
+            - sourceline: "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main"
+              key_url: "https://apt.llvm.org/llvm-snapshot.gpg.key"
+          packages:
+            - clang-10
+            - llvm-10
+            - lld-10
+            - ninja-build
+
+    - os: linux
       name: "Clang 9.0"
       env:
         - "C_COMPILER=clang-9"
