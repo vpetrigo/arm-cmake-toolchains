@@ -56,8 +56,12 @@ endmacro()
 # ```cmake
 # set(ARM_GCC_C_COMPILER arm-none-eabi-gcc)
 # set(CPU_FLAGS -mthumb -mcpu=cortex-m3)
+# clang_utils_get_arm_gcc_sysroot(${ARM_GCC_C_COMPILER} ${CPU_FLAGS})
+# clang_utils_get_arm_gcc_multilib_dir(${ARM_GCC_C_COMPILER} ${CPU_FLAGS})
 # clang_utils_get_arm_gcc_lib_dir(${ARM_GCC_C_COMPILER} ${CPU_FLAGS})
-# message("ARM GCC multilib: ${ARM_GCC_LIBGCC}")
+# add_link_options(-L${ARM_GCC_SYSROOT}/lib/${ARM_GCC_MULTIDIR} -L${ARM_GCC_LIBGCC_DIR})
+# clang_utils_get_arm_gcc_crt(${ARM_GCC_SYSROOT} ${ARM_GCC_MULTIDIR} ${ARM_GCC_LIBGCC_DIR})
+# message("ARM GCC CRT: ${CRT0_OBJ} ${CRT_OBJ}")
 # ```
 macro(clang_utils_get_arm_gcc_crt sysroot multilib_dir libgcc_dir)
     set(CRT0_OBJ ${sysroot}/lib/${multilib_dir}/crt0.o)
