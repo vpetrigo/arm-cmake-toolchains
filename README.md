@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/vpetrigo/arm-cmake-toolchains.svg?branch=master)](https://travis-ci.com/vpetrigo/arm-cmake-toolchains)
+![GitHub](https://img.shields.io/github/license/vpetrigo/arm-cmake-toolchains)
 
 # CMake toolchain files for ARM GCC compiler
 
@@ -15,6 +16,11 @@ PATH=<path/to/arm-none-eabi>:$PATH cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE=arm-gcc
 
 `clang-arm-gcc-toolchain.cmake` uses Clang front-end as a compiler that has some additional code analyzer 
 features with comprehensive warning/errormessages.
+
+## Example projects
+
+- EFM32GG on STK3700 board:
+  - [simple LED blinking](examples/efm32/led)
 
 ## Customization of toolchain file
 
