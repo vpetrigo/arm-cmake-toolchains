@@ -43,8 +43,8 @@ SECTIONS {
         *(.ARM.extab .ARM.extab* .gnu.linkonce.armextab.*);
    } > FLASH
 
-   .ARM.extab : {
-        *(.ARM.exidx);
+   .ARM.exidx : {
+        *(.ARM.exidx .gnu.linkonce.armexidx.*);
    } > FLASH
 
    __text_end__ = .;
