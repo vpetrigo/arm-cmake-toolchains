@@ -44,7 +44,7 @@ SECTIONS {
    } > FLASH
 
    .ARM.exidx : {
-        *(.ARM.exidx .gnu.linkonce.armexidx.*);
+        *(.ARM.exidx .ARM.exidx* .gnu.linkonce.armexidx.*);
    } > FLASH
 
    __text_end__ = .;
