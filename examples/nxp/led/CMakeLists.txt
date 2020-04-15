@@ -49,6 +49,7 @@ generate_object(k64f_led .bin binary)
 generate_object(k64f_led .hex ihex)
 
 if ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" OR
-    "${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" AND ${CMAKE_C_COMPILER_VERSION} VERSION_GREATER_EQUAL "9.0")
+    "${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" AND "${CMAKE_C_COMPILER_VERSION}" VERSION_GREATER_EQUAL "9.0")
+    message("HEX: ${CMAKE_C_COMPILER_ID}: ${CMAKE_C_COMPILER_VERSION}")
     generate_object(k64f_led .hex ihex)
 endif()
