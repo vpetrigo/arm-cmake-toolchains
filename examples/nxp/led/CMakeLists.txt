@@ -50,5 +50,5 @@ generate_object(k64f_led .hex ihex)
 
 if ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" OR
     "${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" AND ${CMAKE_C_COMPILER_VERSION} VERSION_GREATER_EQUAL "9.0")
-    generate_object(efm32_test .hex ihex)
+    generate_object(k64f_led .hex ihex)
 endif()
