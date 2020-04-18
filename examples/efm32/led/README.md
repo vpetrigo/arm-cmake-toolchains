@@ -4,7 +4,7 @@ Simple LED blinking on [STK3700][1] which is based on EFM32GG990F1024 IC
 
 **Tested compilers**
 
-- [ARM GCC 9.3.1][armgcc] - (_gcc-arm-none-eabi-8-2018-q4-major_)
+- [ARM GCC 9.3.1][armgcc] - (_gcc-arm-none-eabi-9-2020-q2-major_)
 - [Clang 8.0.0][clang]
 - [Clang 9.0.1][clang]
 - [Clang 10.0.0][clang]
