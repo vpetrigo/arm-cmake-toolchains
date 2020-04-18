@@ -21,6 +21,8 @@ features with comprehensive warning/errormessages.
 
 - EFM32GG on STK3700 board:
   - [simple LED blinking](examples/efm32/led)
+- K64F on FRDM-K64F board:
+  - [simple LED blinking](examples/nxp/led)
 
 ## Customization of toolchain file
 
