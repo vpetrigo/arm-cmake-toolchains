@@ -62,7 +62,24 @@ PROJECT_ROOT="`pwd`"
 
 arm-none-eabi-gcc --version
 
-cd examples/efm32/led
+EFM32_PROJECT="${PROJECT_ROOT}/examples/efm32/led"
+K64F_PROJECT="${PROJECT_ROOT}/examples/nxp/led"
+
+cd ${EFM32_PROJECT}
+
+if [ "${C_COMPILER}" != "${C_COMPILER%*clang*}" ]; then
+    mkdir -p build-clang
+    cd build-clang
+    cmake .. -G Ninja -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/clang-arm-gcc-toolchain.cmake
+else
+    mkdir -p build-gcc
+    cd build-gcc
+    cmake .. -G Ninja -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/arm-gcc-toolchain.cmake
+fi
+
+cmake --build .
+
+cd ${K64F_PROJECT}
 
 if [ "${C_COMPILER}" != "${C_COMPILER%*clang*}" ]; then
     mkdir -p build-clang
