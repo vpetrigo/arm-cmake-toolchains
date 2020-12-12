@@ -24,8 +24,8 @@ set_clang() {
 
 if [ ! -z "$(which brew)" ]; then
     brew update
-    brew install cmake ninja ${LLVM_PKG}
-    brew upgrade cmake
+    brew install ninja ${LLVM_PKG}
+    # brew upgrade cmake
     cmake --version
 fi
 
