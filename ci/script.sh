@@ -22,6 +22,13 @@ set_clang() {
     lld --version || true
 }
 
+if [[ (-x $(which brew)) ]]; then
+    brew update
+    brew install cmake ninja ${LLVM_PKG}
+    brew upgrade cmake
+    cmake --version
+fi
+
 if [ ! -z "${TRAVIS+set}" ]; then
     case "${C_COMPILER}" in
     *clang*)
