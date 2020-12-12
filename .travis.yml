@@ -101,9 +101,7 @@ matrix:
       addons:
         homebrew:
           packages:
-            - llvm@10
             - ninja
-          update: true
 
     - os: osx
       osx_image: xcode10.1
@@ -121,7 +119,6 @@ matrix:
           packages:
             - llvm@9
             - ninja
-          update: true
 
     - os: osx
       osx_image: xcode10.1
@@ -139,7 +136,6 @@ matrix:
           packages:
             - llvm@8
             - ninja
-          update: true
 
 script:
   - sh ci/script.sh
