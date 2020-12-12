@@ -22,7 +22,7 @@ set_clang() {
     lld --version || true
 }
 
-if [ -x $(which brew) ]; then
+if [ ! -z "$(which brew)" ]; then
     brew update
     brew install cmake ninja ${LLVM_PKG}
     brew upgrade cmake
