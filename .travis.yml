@@ -88,7 +88,7 @@ matrix:
 
     # Clang/LLVM (macOS)
     - os: osx
-      osx_image: xcode10.1
+      osx_image: xcode10.2
       name: "Mac OSX LLVM 10"
       env:
         - "C_COMPILER=clang"
@@ -100,7 +100,7 @@ matrix:
         - "LLVM_PKG=llvm"
 
     - os: osx
-      osx_image: xcode10.1
+      osx_image: xcode10.2
       name: "Mac OSX LLVM 9"
       env:
         - "C_COMPILER=clang"
@@ -112,7 +112,7 @@ matrix:
         - "LLVM_PKG=llvm@9"
 
     - os: osx
-      osx_image: xcode10.1
+      osx_image: xcode10.2
       name: "Mac OSX LLVM 8"
       env:
         - "C_COMPILER=clang"
