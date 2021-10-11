@@ -4,6 +4,11 @@
 # CMake toolchain files for ARM GCC compiler
 
 This repo contains CMake toolchain files that utilizes [ARM GCC](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm).
+MCU families that can be used:
+- STM32 (F0, F1, F2, F3, F4, F7, G0, G4, H7, L0, L1, L4, L5, U5, WB, WL)
+- nRF51/nRF52 (nRF52832, nRF52840, nRF51822)
+- NXP Kinetis (LPC800, LPC5500, K-series like K64)
+- Many more (any Cortex-M based) :smile:
 
 One of them `arm-gcc-toolchain.cmake` uses `arm-none-eabi-gcc` suite to build CMake project. To use it the toolchain must 
 be added to the system PATH variable.
