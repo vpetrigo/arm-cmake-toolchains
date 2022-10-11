@@ -26,6 +26,8 @@ endif()
 set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}gcc)
 set(CMAKE_ASM_COMPILER ${CMAKE_C_COMPILER})
 set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}g++)
+set(CMAKE_AR ${TOOLCHAIN_PREFIX}gcc-ar)
+set(CMAKE_RANLIB ${TOOLCHAIN_PREFIX}gcc-ranlib)
 
 # Default C compiler flags
 set(CMAKE_C_FLAGS_DEBUG_INIT "-g3 -Og -Wall -pedantic -DDEBUG")
