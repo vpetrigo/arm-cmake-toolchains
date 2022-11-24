@@ -9,11 +9,12 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 set(CPU_FLAGS -mthumb -mcpu=cortex-m3 -mfloat-abi=soft)
 set(COMPILER_FLAGS -ffreestanding -ffunction-sections -fdata-sections -fsigned-char -fmessage-length=0 -fshort-enums)
-set(SIL_GECKO_SDK "${CMAKE_CURRENT_LIST_DIR}/../Gecko_SDK")
+set(SIL_GECKO_SDK "${CMAKE_CURRENT_LIST_DIR}/../gecko_sdk")
 set(PLATFORM_PATH "platform/Device/SiliconLabs/EFM32GG")
 set(LINKER_FILE "${CMAKE_CURRENT_LIST_DIR}/efm32gg.ld")
 
 add_compile_options(${CPU_FLAGS} ${COMPILER_FLAGS})
+add_link_options(${CPU_FLAGS})
 add_definitions(-DEFM32GG990F1024)
 
 include(../../../utils.cmake)
@@ -33,17 +34,16 @@ if("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
     clang_utils_get_arm_gcc_crt(${ARM_GCC_SYSROOT} ${ARM_GCC_MULTIDIR} ${ARM_GCC_LIBGCC_DIR})
     string(APPEND CMAKE_EXE_LINKER_FLAGS
         " -nostdlib -L${ARM_GCC_SYSROOT}/lib/${ARM_GCC_MULTIDIR} -L${ARM_GCC_LIBGCC_DIR}")
-    string(APPEND CMAKE_EXE_LINKER_FLAGS " -lgcc -lnosys -lc")
+    string(APPEND CMAKE_EXE_LINKER_FLAGS " -lgcc -lnano -lc")
 elseif("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
     string(REGEX MATCH ".*\.specs.*" has_specs "${CMAKE_EXE_LINKER_FLAGS}")
 
     if(NOT has_specs)
-        string(APPEND CMAKE_EXE_LINKER_FLAGS " --specs=nosys.specs")
+        string(APPEND CMAKE_EXE_LINKER_FLAGS " --specs=nano.specs")
     endif()
 endif()
 
 string(REPLACE ";" " " _LINKER_CPU_FLAGS "${CPU_FLAGS}")
-string(APPEND CMAKE_EXE_LINKER_FLAGS " ${_LINKER_CPU_FLAGS} -Wl,-T ${LINKER_FILE} -Wl,--gc-sections")
 
 add_library(emlib ${emlib_src})
 target_include_directories(emlib PUBLIC ${emlib_inc} ${device_inc} ${cmsis_inc})
@@ -54,10 +54,11 @@ target_include_directories(system PUBLIC ${emlib_inc} ${device_inc} ${cmsis_inc}
 
 add_executable(efm32_test main.c ${efm32_test_obj} ${CRT0_OBJ} ${CRT_OBJ})
 target_link_libraries(efm32_test emlib startup system)
+target_link_options(efm32_test PRIVATE -Wl,--gc-sections -Wl,-T ${LINKER_FILE})
 
-firmware_size(efm32_test)
+firmware_size(efm32_test berkley)
 generate_object(efm32_test .bin binary)
 
 if ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
-    generate_object(efm32_test .hex ihex)
+     generate_object(efm32_test .hex ihex)
 endif()

@@ -4,11 +4,11 @@ macro(subdirlist result current_dir)
     file(GLOB children ${current_dir}/*)
     set(dirlist "")
 
-    foreach(child ${children})
+    foreach (child ${children})
         if (IS_DIRECTORY ${child})
             list(APPEND dirlist ${child})
-        endif()
-    endforeach()
+        endif ()
+    endforeach ()
 
     set(${result} ${dirlist})
 endmacro()
@@ -20,19 +20,27 @@ macro(prepend_cur_dir variable directory)
 endmacro()
 
 # Add custom command to print firmware size in Berkley format
-function(firmware_size target)
+function(firmware_size target type)
+    if (type STREQUAL "sysv")
+        set(_size_type "-A")
+    elseif (type STREQUAL "berkley")
+        set(_size_type "-B")
+    else ()
+        message(FATAL_ERROR "Unknown size output format ${type}")
+    endif ()
+
     add_custom_command(TARGET ${target} POST_BUILD
-        COMMAND ${CMAKE_SIZE_UTIL} -B
-        "${CMAKE_CURRENT_BINARY_DIR}/${target}${CMAKE_EXECUTABLE_SUFFIX}"
-    )
+        WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+        COMMAND ${CMAKE_SIZE_UTIL} ${_size_type}
+        "${target}${CMAKE_EXECUTABLE_SUFFIX}")
 endfunction()
 
 # Add a command to generate firmare in a provided format
 function(generate_object target suffix type)
     add_custom_command(TARGET ${target} POST_BUILD
+        WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
         COMMAND ${CMAKE_OBJCOPY} -O ${type}
-        "${CMAKE_CURRENT_BINARY_DIR}/${target}${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_BINARY_DIR}/${target}${suffix}"
-    )
+        "${target}${CMAKE_EXECUTABLE_SUFFIX}" "${target}${suffix}")
 endfunction()
 
 # Add custom linker script to the linker flags

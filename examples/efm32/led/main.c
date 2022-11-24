@@ -1,30 +1,24 @@
-#include "em_gpio.h"
 #include "em_chip.h"
 #include "em_cmu.h"
+#include "em_gpio.h"
 #include "em_timer.h"
 
-#define MAX_TOP_TIMER3  28000
+#define MAX_TOP_TIMER3 28000
 
 static volatile uint32_t ms_tick;
 
-void SysTick_Handler(void)
-{
-  ++ms_tick;
-}
+void SysTick_Handler(void) { ++ms_tick; }
 
-void MSP_Delay(uint32_t ms_delay)
-{
+void MSP_Delay(uint32_t ms_delay) {
   uint32_t cur_tick = ms_tick;
 
   while (ms_tick - cur_tick < ms_delay) {
-
   }
 
   ms_tick = 0;
 }
 
-int main(void)
-{
+__attribute__((noreturn)) void main(void) {
   CHIP_Init();
 
   CMU_HFRCOBandSet(cmuHFRCOBand_28MHz);
@@ -33,12 +27,17 @@ int main(void)
   CMU_ClockEnable(cmuClock_TIMER3, true);
 
   TIMER_Init_TypeDef tim3 = TIMER_INIT_DEFAULT;
-  TIMER_InitCC_TypeDef tim3cc = {
-      timerEventEveryEdge, timerEdgeNone, timerPRSSELCh0,
-      timerOutputActionNone, timerOutputActionSet,
-      timerOutputActionClear, timerCCModePWM, false,
-      false, false, false
-  };
+  TIMER_InitCC_TypeDef tim3cc = {timerEventEveryEdge,
+                                 timerEdgeNone,
+                                 timerPRSSELCh0,
+                                 timerOutputActionNone,
+                                 timerOutputActionSet,
+                                 timerOutputActionClear,
+                                 timerCCModePWM,
+                                 false,
+                                 false,
+                                 false,
+                                 false};
 
   uint16_t timer_val = 0;
   int16_t inc = 400;
@@ -52,7 +51,7 @@ int main(void)
   GPIO_PinModeSet(gpioPortE, 2, gpioModePushPull, 0);
   GPIO_PinModeSet(gpioPortE, 3, gpioModePushPull, 0);
 
-  while(true) {
+  while (true) {
     MSP_Delay(5);
     timer_val += inc;
 
@@ -62,6 +61,6 @@ int main(void)
 
     TIMER_CompareSet(TIMER3, 2, timer_val);
   }
-
-  return 0;
 }
+
+int _exit(void) { return 0; }
