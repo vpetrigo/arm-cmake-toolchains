@@ -17,7 +17,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        submodules: 'true'
+        with:
+          submodules: 'true'
       - name: Install GNU Arm Embedded Toolchain - ${{ matrix.gcc }}
         uses: carlosperate/arm-none-eabi-gcc-action@v1
         with:
