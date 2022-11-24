@@ -44,7 +44,7 @@ add_executable(k64f_led main.c startup.c system.c ${CRT0_OBJ} ${CRT_OBJ})
 target_link_libraries(k64f_led nxp_sdk)
 set_target_properties(k64f_led PROPERTIES LINK_DEPENDS ${LINKER_FILE})
 
-firmware_size(k64f_led)
+firmware_size(k64f_led sysv)
 generate_object(k64f_led .bin binary)
 
 if ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" OR

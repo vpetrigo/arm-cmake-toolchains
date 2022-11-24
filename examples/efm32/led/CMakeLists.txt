@@ -58,7 +58,7 @@ add_executable(efm32_test main.c ${efm32_test_obj} ${CRT0_OBJ} ${CRT_OBJ})
 target_link_libraries(efm32_test emlib startup system)
 target_link_options(efm32_test PRIVATE -Wl,--gc-sections -Wl,-T ${LINKER_FILE})
 
-firmware_size(efm32_test berkley)
+firmware_size(efm32_test sysv)
 generate_object(efm32_test .bin binary)
 
 if ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
