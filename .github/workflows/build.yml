@@ -90,14 +90,15 @@ jobs:
         uses: lukka/get-cmake@latest
       - name: Build EFM32 LED project
         run: |
-          export PROJECT_ROOT="$(readlink -f .)"
-          pushd examples/efm32/led
-          cmake -S . -B build/ -G Ninja -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/arm-gcc-toolchain.cmake
+          set PROJECT_ROOT="%CD%"
+          cd examples/efm32/led
+          cmake -S . -B build/ -G Ninja -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}\arm-gcc-toolchain.cmake
           cmake --build build/
-          popd
+          cd %PROJECT_ROOT%
       - name: Build K64F LED project
         run: |
-          export PROJECT_ROOT="$(readlink -f .)"
-          pushd examples/nxp/led
-          cmake -S . -B build/ -G Ninja -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/arm-gcc-toolchain.cmake
-          cmake --build build/
+          set PROJECT_ROOT="%CD%"
+          cd examples/nxp/led
+          cmake -S . -B build\ -G Ninja -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}\arm-gcc-toolchain.cmake
+          cmake --build build\
+          cd %PROJECT_ROOT%
