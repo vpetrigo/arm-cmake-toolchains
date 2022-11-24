@@ -34,7 +34,7 @@ if("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
     clang_utils_get_arm_gcc_crt(${ARM_GCC_SYSROOT} ${ARM_GCC_MULTIDIR} ${ARM_GCC_LIBGCC_DIR})
     string(APPEND CMAKE_EXE_LINKER_FLAGS
         " -nostdlib -L${ARM_GCC_SYSROOT}/lib/${ARM_GCC_MULTIDIR} -L${ARM_GCC_LIBGCC_DIR}")
-    string(APPEND CMAKE_EXE_LINKER_FLAGS " -lgcc -lnano -lc")
+    string(APPEND CMAKE_EXE_LINKER_FLAGS " -lgcc -lc_nano -lc")
 elseif("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
     string(REGEX MATCH ".*\.specs.*" has_specs "${CMAKE_EXE_LINKER_FLAGS}")
 
