@@ -6,7 +6,7 @@ function(emlib_add gecko_sdk_path)
 endfunction()
 
 function(emlib_inc_dir gecko_sdk_path)
-    set(emlib_inc ${gecko_sdk_path}/platform/emlib/inc PARENT_SCOPE)
+    set(emlib_inc ${gecko_sdk_path}/platform/emlib/inc ${gecko_sdk_path}/platform/common/inc PARENT_SCOPE)
 endfunction()
 
 function(device_inc_dir gecko_sdk_path dev_name)
@@ -18,5 +18,5 @@ function(device_src_dir gecko_sdk_path dev_name)
 endfunction()
 
 function(gecko_cmsis_dir gecko_sdk_path)
-    set(cmsis_inc ${gecko_sdk_path}/platform/CMSIS/Include PARENT_SCOPE)
+    set(cmsis_inc ${gecko_sdk_path}/platform/CMSIS/Core/Include PARENT_SCOPE)
 endfunction()

@@ -48,7 +48,9 @@ string(REPLACE ";" " " _LINKER_CPU_FLAGS "${CPU_FLAGS}")
 add_library(emlib ${emlib_src})
 target_include_directories(emlib PUBLIC ${emlib_inc} ${device_inc} ${cmsis_inc})
 
-add_library(startup ${device_src}/GCC/startup_efm32gg.c)
+add_library(startup ${device_src}/startup_efm32gg.c)
+target_include_directories(startup PRIVATE ${device_inc} ${cmsis_inc})
+target_compile_definitions(startup PUBLIC -D__PROGRAM_START=main)
 add_library(system ${device_src}/system_efm32gg.c)
 target_include_directories(system PUBLIC ${emlib_inc} ${device_inc} ${cmsis_inc})
 
