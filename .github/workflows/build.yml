@@ -11,8 +11,9 @@ on:
 jobs:
   build_linux:
     runs-on: ubuntu-latest
-    matrix:
-      gcc: [ '10-2020-q4', '11.2-2022.02', '11.3.Rel1', 'latest' ]
+    strategy:
+      matrix:
+        gcc: [ '10-2020-q4', '11.2-2022.02', '11.3.Rel1', 'latest' ]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
