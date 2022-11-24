@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/vpetrigo/arm-cmake-toolchains.svg?branch=master)](https://travis-ci.com/vpetrigo/arm-cmake-toolchains)
+[![Example projects build](https://github.com/vpetrigo/arm-cmake-toolchains/actions/workflows/build.yml/badge.svg)](https://github.com/vpetrigo/arm-cmake-toolchains/actions/workflows/build.yml)
 ![GitHub](https://img.shields.io/github/license/vpetrigo/arm-cmake-toolchains)
 
 # CMake toolchain files for ARM GCC compiler
