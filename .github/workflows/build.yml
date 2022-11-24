@@ -104,3 +104,37 @@ jobs:
           cmake --build build\
           cd %PROJECT_ROOT%
         shell: cmd
+  build_macos:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        clang: [ '14.0' ]
+        gcc: [ 'latest' ]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+      - name: Install GNU Arm Embedded Toolchain - ${{ matrix.gcc }}
+        uses: carlosperate/arm-none-eabi-gcc-action@v1
+        with:
+          release: ${{ matrix.gcc }}
+      - name: Install LLVM and Clang - ${{ matrix.clang }}
+        uses: KyleMayes/install-llvm-action@v1
+        with:
+          version: ${{ matrix.clang }}
+      - name: Get latest CMake and Ninja
+        uses: lukka/get-cmake@latest
+      - name: Build EFM32 LED project
+        run: |
+          export PROJECT_ROOT="$(readlink -f .)"
+          pushd examples/efm32/led
+          cmake -S . -B build/ -G Ninja -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/clang-arm-gcc-toolchain.cmake
+          cmake --build build/
+          popd
+      - name: Build K64F LED project
+        run: |
+          export PROJECT_ROOT="$(readlink -f .)"
+          pushd examples/nxp/led
+          cmake -S . -B build/ -G Ninja -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/clang-arm-gcc-toolchain.cmake
+          cmake --build build/    
