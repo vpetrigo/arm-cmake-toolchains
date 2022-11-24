@@ -72,3 +72,32 @@ jobs:
           pushd examples/nxp/led
           cmake -S . -B build/ -G Ninja -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/clang-arm-gcc-toolchain.cmake
           cmake --build build/
+  build_win:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        gcc: [ '10-2020-q4', '11.2-2022.02', '11.3.Rel1', 'latest' ]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+      - name: Install GNU Arm Embedded Toolchain - ${{ matrix.gcc }}
+        uses: carlosperate/arm-none-eabi-gcc-action@v1
+        with:
+          release: ${{ matrix.gcc }}
+      - name: Get latest CMake and Ninja
+        uses: lukka/get-cmake@latest
+      - name: Build EFM32 LED project
+        run: |
+          export PROJECT_ROOT="$(readlink -f .)"
+          pushd examples/efm32/led
+          cmake -S . -B build/ -G Ninja -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/arm-gcc-toolchain.cmake
+          cmake --build build/
+          popd
+      - name: Build K64F LED project
+        run: |
+          export PROJECT_ROOT="$(readlink -f .)"
+          pushd examples/nxp/led
+          cmake -S . -B build/ -G Ninja -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/arm-gcc-toolchain.cmake
+          cmake --build build/
