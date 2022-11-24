@@ -1,0 +1,38 @@
+name: 'Example projects build'
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build_linux:
+    runs-on: ubuntu-latest
+    matrix:
+      gcc: [ '10-2020-q4', '11.2-2022.02', '11.3.Rel1', 'latest' ]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        submodules: 'true'
+      - name: Install GNU Arm Embedded Toolchain - ${{ matrix.gcc }}
+        uses: carlosperate/arm-none-eabi-gcc-action@v1
+        with:
+          release: ${{ matrix.gcc }}
+      - name: Get latest CMake and Ninja
+        uses: lukka/get-cmake@latest
+      - name: Build EFM32 LED project
+        run: |
+          export PROJECT_ROOT="$(readlink -f .)"
+          pushd examples/efm32/led
+          cmake -S . -B build/ -G Ninja -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/arm-gcc-toolchain.cmake
+          cmake --build build/
+          popd
+      - name: Build K64F LED project
+        run: |
+          export PROJECT_ROOT="$(readlink -f .)"
+          pushd examples/nxp/led
+          cmake -S . -B build/ -G Ninja -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/arm-gcc-toolchain.cmake
+          cmake --build build/
