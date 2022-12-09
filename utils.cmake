@@ -30,17 +30,17 @@ function(firmware_size target type)
     endif ()
 
     add_custom_command(TARGET ${target} POST_BUILD
-        WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-        COMMAND ${CMAKE_SIZE_UTIL} ${_size_type}
-        "${target}${CMAKE_EXECUTABLE_SUFFIX}")
+            COMMAND ${CMAKE_SIZE_UTIL} ${_size_type}
+            "${CMAKE_CURRENT_BINARY_DIR}/${target}${CMAKE_EXECUTABLE_SUFFIX}"
+            )
 endfunction()
 
 # Add a command to generate firmare in a provided format
 function(generate_object target suffix type)
     add_custom_command(TARGET ${target} POST_BUILD
-        WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-        COMMAND ${CMAKE_OBJCOPY} -O ${type}
-        "${target}${CMAKE_EXECUTABLE_SUFFIX}" "${target}${suffix}")
+            COMMAND ${CMAKE_OBJCOPY} -O ${type}
+            "${CMAKE_CURRENT_BINARY_DIR}/${target}${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_BINARY_DIR}/${target}${suffix}"
+            )
 endfunction()
 
 # Add custom linker script to the linker flags
@@ -52,6 +52,17 @@ endfunction()
 # That allows to rebuild that target if the linker script gets changed
 function(linker_script_target_dependency target path_to_script)
     get_target_property(_cur_link_deps ${target} LINK_DEPENDS)
-    string(APPEND _cur_link_deps " ${path_to_script}")
+
+    if (_cur_link_deps)
+        string(APPEND _cur_link_deps " ${path_to_script}")
+    else ()
+        set(_cur_link_deps ${path_to_script})
+    endif ()
+
     set_target_properties(${target} PROPERTIES LINK_DEPENDS ${_cur_link_deps})
 endfunction()
+
+# Add flags to enable all warning on a target
+macro(enable_extra_warnings TARGET)
+    target_compile_options(${TARGET} PRIVATE -Wall -Wextra -Wno-pedantic -Wconversion -Werror)
+endmacro()
