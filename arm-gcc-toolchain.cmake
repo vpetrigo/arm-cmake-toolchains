@@ -17,12 +17,11 @@ execute_process(
 
 if (MINGW OR CYGWIN OR WIN32)
     if (BINUTILS_PATH)
-#        message("PROCESS BINUTILS")
         string(REPLACE "\n" ";" BINUTILS_PATH "${BINUTILS_PATH}")
         list(GET BINUTILS_PATH 0 BINUTILS_PATH)
     endif ()
 endif ()
-#message("BINUTILS_PATH: ${BINUTILS_PATH}")
+
 if (NOT BINUTILS_PATH)
     message(FATAL_ERROR "ARM GCC toolchain not found")
 endif ()
