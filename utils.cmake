@@ -63,6 +63,16 @@ function(linker_script_target_dependency target path_to_script)
 endfunction()
 
 # Add flags to enable all warning on a target
+# Accepts two arguments:
+# - <target> - target name to add additional compiler warning flags (GCC version)
+# - <warning_to_error> - (OPTIONAL) boolean flag. If ON - mark all warnings as error. OFF by default
 macro(enable_extra_warnings TARGET)
-    target_compile_options(${TARGET} PRIVATE -Wall -Wextra -Wno-pedantic -Wconversion -Werror)
+    target_compile_options(${TARGET} PRIVATE -Wall -Wextra -Wno-pedantic -Wconversion)
+
+    if (${ARGC} GREATER 1)
+        if (${ARGV1})
+            message("ENABLE ERROR FOR WARNINGS")
+            target_compile_options(${TARGET} PRIVATE -Werror)
+        endif ()
+    endif ()
 endmacro()
