@@ -71,7 +71,6 @@ macro(enable_extra_warnings TARGET)
 
     if (${ARGC} GREATER 1)
         if (${ARGV1})
-            message("ENABLE ERROR FOR WARNINGS")
             target_compile_options(${TARGET} PRIVATE -Werror)
         endif ()
     endif ()
