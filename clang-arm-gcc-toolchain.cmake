@@ -1,27 +1,9 @@
 set(CMAKE_SYSTEM_NAME Linux)
 set(CMAKE_SYSTEM_PROCESSOR ARM)
 
-if (MINGW OR CYGWIN OR WIN32)
-    set(UTIL_SEARCH_CMD where)
-elseif (UNIX OR APPLE)
-    set(UTIL_SEARCH_CMD which)
-endif ()
-
 set(TOOLCHAIN_PREFIX arm-none-eabi-)
 set(TOOLCHAIN_TRIPLE arm-none-eabi)
-
-execute_process(
-    COMMAND ${UTIL_SEARCH_CMD} ${TOOLCHAIN_PREFIX}gcc
-    OUTPUT_VARIABLE BINUTILS_PATH
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-
-if (MINGW OR CYGWIN OR WIN32)
-    if (BINUTILS_PATH)
-        string(REPLACE "\n" ";" BINUTILS_PATH "${BINUTILS_PATH}")
-        list(GET BINUTILS_PATH 0 BINUTILS_PATH)
-    endif ()
-endif ()
+find_program(BINUTILS_PATH ${TOOLCHAIN_PREFIX}gcc NO_CACHE)
 
 if (NOT BINUTILS_PATH)
     message(FATAL_ERROR "ARM GCC toolchain not found")
