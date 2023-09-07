@@ -35,7 +35,7 @@ function(firmware_size target type)
             )
 endfunction()
 
-# Add a command to generate firmare in a provided format
+# Add a command to generate firmware in a provided format
 function(generate_object target suffix type)
     add_custom_command(TARGET ${target} POST_BUILD
             COMMAND ${CMAKE_OBJCOPY} -O ${type}
