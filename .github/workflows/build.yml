@@ -13,10 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        gcc: [ '10-2020-q4', '11.2-2022.02', '11.3.Rel1', 'latest' ]
+        gcc: [ '10-2020-q4', '11.3.Rel1', '13.3.Rel1', 'latest' ]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: 'recursive'
       - name: Install GNU Arm Embedded Toolchain - ${{ matrix.gcc }}
@@ -42,11 +42,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        clang: [ '12.0', '14.0' ]
+        clang: [ '17.0', '19.1' ]
         gcc: [ 'latest' ]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: 'recursive'
       - name: Install GNU Arm Embedded Toolchain - ${{ matrix.gcc }}
@@ -76,7 +76,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        gcc: [ '10-2020-q4', '11.2-2022.02', '11.3.Rel1', 'latest' ]
+        gcc: [ '10-2020-q4', '11.3.Rel1', '13.3.Rel1', 'latest' ]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -108,11 +108,11 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        clang: [ '14.0' ]
+        clang: [ '19.1' ]
         gcc: [ 'latest' ]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: 'recursive'
       - name: Install GNU Arm Embedded Toolchain - ${{ matrix.gcc }}
