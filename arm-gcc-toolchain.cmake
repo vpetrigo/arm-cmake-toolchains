@@ -1,4 +1,4 @@
-set(CMAKE_SYSTEM_NAME Generic)
+set(CMAKE_SYSTEM_NAME Generic-ELF)
 set(CMAKE_SYSTEM_PROCESSOR ARM)
 
 set(TOOLCHAIN_PREFIX arm-none-eabi-)
