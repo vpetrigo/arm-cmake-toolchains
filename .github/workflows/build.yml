@@ -54,7 +54,7 @@ jobs:
         with:
           release: ${{ matrix.gcc }}
       - name: Install LLVM and Clang - ${{ matrix.clang }}
-        uses: KyleMayes/install-llvm-action@v1
+        uses: KyleMayes/install-llvm-action@v2
         with:
           version: ${{ matrix.clang }}
       - name: Get latest CMake and Ninja
@@ -108,7 +108,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        clang: [ '18.1.8' ]
+        clang: [ '15.0.7' ]
         gcc: [ 'latest' ]
     steps:
       - name: Checkout repository
@@ -120,7 +120,7 @@ jobs:
         with:
           release: ${{ matrix.gcc }}
       - name: Install LLVM and Clang - ${{ matrix.clang }}
-        uses: KyleMayes/install-llvm-action@v1
+        uses: KyleMayes/install-llvm-action@v2
         with:
           version: ${{ matrix.clang }}
       - name: Get latest CMake and Ninja
