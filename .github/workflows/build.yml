@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        clang: [ '17.0.6', '18.1.8' ]
+        clang: [ '16.0.4', '17.0.5' ]
         gcc: [ 'latest' ]
     steps:
       - name: Checkout repository
