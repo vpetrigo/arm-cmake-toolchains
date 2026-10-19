@@ -1,3 +1,5 @@
+# CPU flags may be passed as a quoted list or as separate arguments. Preserve
+# ARGN as well as cpu_flags so multilib queries use the complete CPU/ABI flags.
 # Retrieve ARM GCC sysroot for further usage with Clang
 # Pass @compiler and @cpu_flags and the macro set up
 # ARM_GCC_SYSROOT variable with proper sysroot string
@@ -10,7 +12,7 @@
 # ```
 macro(clang_utils_get_arm_gcc_sysroot compiler cpu_flags)
     execute_process(COMMAND ${compiler}
-            ${cpu_flags} -print-sysroot OUTPUT_VARIABLE ARM_GCC_SYSROOT
+            ${cpu_flags} ${ARGN} -print-sysroot OUTPUT_VARIABLE ARM_GCC_SYSROOT
             OUTPUT_STRIP_TRAILING_WHITESPACE)
 endmacro()
 
@@ -25,7 +27,7 @@ endmacro()
 # message("ARM GCC multilib: ${ARM_GCC_MULTIDIR}")
 # ```
 macro(clang_utils_get_arm_gcc_multilib_dir compiler cpu_flags)
-    execute_process(COMMAND ${compiler} ${cpu_flags} -print-multi-directory
+    execute_process(COMMAND ${compiler} ${cpu_flags} ${ARGN} -print-multi-directory
             OUTPUT_VARIABLE ARM_GCC_MULTIDIR
             OUTPUT_STRIP_TRAILING_WHITESPACE)
 endmacro()
@@ -41,7 +43,7 @@ endmacro()
 # message("ARM GCC multilib: ${ARM_GCC_LIBGCC_DIR}")
 # ```
 macro(clang_utils_get_arm_gcc_lib_dir compiler cpu_flags)
-    execute_process(COMMAND ${compiler} ${cpu_flags} -print-libgcc-file-name
+    execute_process(COMMAND ${compiler} ${cpu_flags} ${ARGN} -print-libgcc-file-name
             OUTPUT_VARIABLE __ARM_GCC_LIBGCC
             OUTPUT_STRIP_TRAILING_WHITESPACE)
     get_filename_component(ARM_GCC_LIBGCC_DIR ${__ARM_GCC_LIBGCC} DIRECTORY)

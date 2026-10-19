@@ -23,7 +23,6 @@ if("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
     clang_utils_get_arm_gcc_crt(${ARM_GCC_SYSROOT} ${ARM_GCC_MULTIDIR} ${ARM_GCC_LIBGCC_DIR})
     string(APPEND CMAKE_EXE_LINKER_FLAGS
         " -nostdlib -L${ARM_GCC_SYSROOT}/lib/${ARM_GCC_MULTIDIR} -L${ARM_GCC_LIBGCC_DIR}")
-    string(APPEND CMAKE_EXE_LINKER_FLAGS " -lgcc -lnosys -lc")
 elseif("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
     string(REGEX MATCH ".*\.specs.*" has_specs "${CMAKE_EXE_LINKER_FLAGS}")
 
@@ -42,6 +41,10 @@ add_library(nxp_sdk ${sdk_src})
 target_include_directories(nxp_sdk PUBLIC ${NXP_SDK_DIR})
 add_executable(k64f_led main.c startup.c system.c ${CRT0_OBJ} ${CRT_OBJ})
 target_link_libraries(k64f_led nxp_sdk)
+if ("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
+    # Static runtimes must follow their users; rescan their mutual dependencies.
+    target_link_libraries(k64f_led -Wl,--start-group gcc c nosys -Wl,--end-group)
+endif ()
 set_target_properties(k64f_led PROPERTIES LINK_DEPENDS ${LINKER_FILE})
 
 firmware_size(k64f_led sysv)

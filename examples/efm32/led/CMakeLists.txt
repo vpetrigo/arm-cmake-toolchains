@@ -34,7 +34,6 @@ if("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
     clang_utils_get_arm_gcc_crt(${ARM_GCC_SYSROOT} ${ARM_GCC_MULTIDIR} ${ARM_GCC_LIBGCC_DIR})
     string(APPEND CMAKE_EXE_LINKER_FLAGS
         " -nostdlib -L${ARM_GCC_SYSROOT}/lib/${ARM_GCC_MULTIDIR} -L${ARM_GCC_LIBGCC_DIR}")
-    string(APPEND CMAKE_EXE_LINKER_FLAGS " -lgcc -lc_nano -lc")
 elseif("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
     string(REGEX MATCH ".*\.specs.*" has_specs "${CMAKE_EXE_LINKER_FLAGS}")
 
@@ -56,6 +55,10 @@ target_include_directories(system PUBLIC ${emlib_inc} ${device_inc} ${cmsis_inc}
 
 add_executable(efm32_test main.c ${efm32_test_obj} ${CRT0_OBJ} ${CRT_OBJ})
 target_link_libraries(efm32_test emlib startup system)
+if ("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
+    # Static runtimes must follow their users; rescan their mutual dependencies.
+    target_link_libraries(efm32_test -Wl,--start-group gcc c_nano c -Wl,--end-group)
+endif ()
 target_link_options(efm32_test PRIVATE -Wl,--gc-sections -Wl,-T ${LINKER_FILE})
 
 firmware_size(efm32_test sysv)
