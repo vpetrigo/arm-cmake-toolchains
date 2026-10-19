@@ -15,14 +15,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        gcc: [ '10-2020-q4', '11.3.Rel1', '13.3.Rel1', 'latest' ]
+        gcc: [ '13.3.rel1', '14.3.rel1', '15.3.rel2' ]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           submodules: 'recursive'
-      - name: Install GNU Arm Embedded Toolchain - ${{ matrix.gcc }}
-        uses: carlosperate/arm-none-eabi-gcc-action@v1
+      - name: Install official Arm GNU Toolchain - ${{ matrix.gcc }}
+        uses: ./.github/actions/setup-arm-gcc
         with:
           release: ${{ matrix.gcc }}
       - name: Get latest CMake and Ninja
@@ -45,14 +45,14 @@ jobs:
     strategy:
       matrix:
         clang: [ '16.0.4', '17.0.5' ]
-        gcc: [ 'latest' ]
+        gcc: [ '13.3.rel1', '14.3.rel1', '15.3.rel2' ]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           submodules: 'recursive'
-      - name: Install GNU Arm Embedded Toolchain - ${{ matrix.gcc }}
-        uses: carlosperate/arm-none-eabi-gcc-action@v1
+      - name: Install official Arm GNU Toolchain - ${{ matrix.gcc }}
+        uses: ./.github/actions/setup-arm-gcc
         with:
           release: ${{ matrix.gcc }}
       - name: Install LLVM and Clang - ${{ matrix.clang }}
@@ -78,14 +78,14 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        gcc: [ '10-2020-q4', '11.3.Rel1', '13.3.Rel1', 'latest' ]
+        gcc: [ '13.3.rel1', '14.3.rel1', '15.3.rel2' ]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
           submodules: 'recursive'
-      - name: Install GNU Arm Embedded Toolchain - ${{ matrix.gcc }}
-        uses: carlosperate/arm-none-eabi-gcc-action@v1
+      - name: Install official Arm GNU Toolchain - ${{ matrix.gcc }}
+        uses: ./.github/actions/setup-arm-gcc
         with:
           release: ${{ matrix.gcc }}
       - name: Get latest CMake and Ninja
@@ -107,18 +107,19 @@ jobs:
           cd %PROJECT_ROOT%
         shell: cmd
   build_macos:
-    runs-on: macos-latest
+    # Arm no longer publishes macOS x86_64 binaries for GCC 15.
+    runs-on: macos-15
     strategy:
       matrix:
         clang: [ '15.0.7' ]
-        gcc: [ 'latest' ]
+        gcc: [ '13.3.rel1', '14.3.rel1', '15.3.rel2' ]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           submodules: 'recursive'
-      - name: Install GNU Arm Embedded Toolchain - ${{ matrix.gcc }}
-        uses: carlosperate/arm-none-eabi-gcc-action@v1
+      - name: Install official Arm GNU Toolchain - ${{ matrix.gcc }}
+        uses: ./.github/actions/setup-arm-gcc
         with:
           release: ${{ matrix.gcc }}
       - name: Install LLVM and Clang - ${{ matrix.clang }}
