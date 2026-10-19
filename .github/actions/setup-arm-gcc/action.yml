@@ -1,0 +1,14 @@
+name: Set up official Arm GNU Toolchain
+description: Download and verify a pinned arm-none-eabi toolchain from Arm's GitLab registry.
+inputs:
+  release:
+    description: Arm GNU Toolchain release (for example, 15.3.rel2).
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Download and verify Arm GNU Toolchain
+      shell: bash
+      env:
+        ARM_GCC_RELEASE: ${{ inputs.release }}
+      run: python "${{ github.action_path }}/install.py"
