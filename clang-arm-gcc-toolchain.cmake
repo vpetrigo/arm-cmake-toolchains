@@ -6,10 +6,23 @@ set(TOOLCHAIN_TRIPLE arm-none-eabi)
 find_program(BINUTILS_PATH ${TOOLCHAIN_PREFIX}gcc NO_CACHE)
 
 if (NOT BINUTILS_PATH)
-    message(FATAL_ERROR "ARM GCC toolchain not found")
+  message(FATAL_ERROR "ARM GCC toolchain not found")
 endif ()
 
 get_filename_component(ARM_TOOLCHAIN_DIR ${BINUTILS_PATH} DIRECTORY)
+find_program(ARM_GNU_LINKER ${TOOLCHAIN_PREFIX}ld
+        PATHS "${ARM_TOOLCHAIN_DIR}"
+        NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH NO_CACHE)
+
+if (NOT ARM_GNU_LINKER)
+  message(FATAL_ERROR "ARM GNU linker not found in ${ARM_TOOLCHAIN_DIR}")
+endif ()
+# CMake links through the Clang driver, so select the linker explicitly there.
+# Do not rely on -B tool discovery, which can fall back to the host linker.
+set(CMAKE_EXE_LINKER_FLAGS_INIT "--ld-path=\"${ARM_GNU_LINKER}\"")
+set(CMAKE_SHARED_LINKER_FLAGS_INIT "--ld-path=\"${ARM_GNU_LINKER}\"")
+set(CMAKE_MODULE_LINKER_FLAGS_INIT "--ld-path=\"${ARM_GNU_LINKER}\"")
+
 set(ARM_GCC_C_COMPILER ${TOOLCHAIN_PREFIX}gcc)
 execute_process(COMMAND ${ARM_GCC_C_COMPILER} -print-sysroot
         OUTPUT_VARIABLE ARM_GCC_SYSROOT OUTPUT_STRIP_TRAILING_WHITESPACE)
@@ -29,10 +42,11 @@ set(CMAKE_CXX_COMPILER_TARGET ${triple})
 set(CMAKE_C_FLAGS_INIT " -B${ARM_TOOLCHAIN_DIR}")
 set(CMAKE_CXX_FLAGS_INIT " -B${ARM_TOOLCHAIN_DIR} ")
 # Without that flag CMake is not able to pass test compilation check
-if (${CMAKE_VERSION} VERSION_EQUAL "3.6.0" OR ${CMAKE_VERSION} VERSION_GREATER "3.6")
-    set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+if (${CMAKE_VERSION} VERSION_EQUAL "3.6.0" OR
+  ${CMAKE_VERSION} VERSION_GREATER "3.6")
+  set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 else ()
-    set(CMAKE_EXE_LINKER_FLAGS_INIT "-nostdlib")
+  string(APPEND CMAKE_EXE_LINKER_FLAGS_INIT " -nostdlib")
 endif ()
 
 set(CMAKE_OBJCOPY llvm-objcopy CACHE INTERNAL "objcopy tool")
