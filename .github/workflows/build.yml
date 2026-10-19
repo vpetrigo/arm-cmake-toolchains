@@ -81,7 +81,7 @@ jobs:
         gcc: [ '13.3.rel1', '14.3.rel1', '15.3.rel2' ]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
         with:
           submodules: 'recursive'
       - name: Install official Arm GNU Toolchain - ${{ matrix.gcc }}
