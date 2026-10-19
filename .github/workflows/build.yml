@@ -18,7 +18,7 @@ jobs:
         gcc: [ '13.3.rel1', '14.3.rel1', '15.3.rel2' ]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           submodules: 'recursive'
       - name: Install official Arm GNU Toolchain - ${{ matrix.gcc }}
@@ -44,11 +44,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        clang: [ '16.0.4', '17.0.5' ]
+        clang: [ '22', '23' ]
         gcc: [ '13.3.rel1', '14.3.rel1', '15.3.rel2' ]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           submodules: 'recursive'
       - name: Install official Arm GNU Toolchain - ${{ matrix.gcc }}
@@ -56,7 +56,7 @@ jobs:
         with:
           release: ${{ matrix.gcc }}
       - name: Install LLVM and Clang - ${{ matrix.clang }}
-        uses: KyleMayes/install-llvm-action@v2
+        uses: egor-tensin/setup-clang@v2
         with:
           version: ${{ matrix.clang }}
       - name: Get latest CMake and Ninja
@@ -115,7 +115,7 @@ jobs:
         gcc: [ '13.3.rel1', '14.3.rel1', '15.3.rel2' ]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           submodules: 'recursive'
       - name: Install official Arm GNU Toolchain - ${{ matrix.gcc }}
@@ -140,4 +140,4 @@ jobs:
           export PROJECT_ROOT="$(readlink -f .)"
           pushd examples/nxp/led
           cmake -S . -B build/ -G Ninja -DCMAKE_TOOLCHAIN_FILE=${PROJECT_ROOT}/clang-arm-gcc-toolchain.cmake
-          cmake --build build/    
+          cmake --build build/
